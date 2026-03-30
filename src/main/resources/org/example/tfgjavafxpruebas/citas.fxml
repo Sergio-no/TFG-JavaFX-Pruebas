@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.tfgjavafxpruebas.controller.CitasController"
+            styleClass="bg-primary" prefWidth="1200" prefHeight="760">
+    <left>
+        <fx:include source="sidebar.fxml"/>
+    </left>
+    <center>
+        <VBox>
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding:12 20; -fx-background-color:#1a1d23;
+                         -fx-border-color:#2e333d; -fx-border-width:0 0 1 0;">
+                <Label text="Citas" styleClass="text-primary"
+                       style="-fx-font-size:15px; -fx-font-weight:500;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="searchField" promptText="Buscar cliente..."
+                           styleClass="input-field" prefWidth="200"/>
+                <Button text="+ Nueva cita" styleClass="btn-primary"
+                        onAction="#abrirNuevaCita"/>
+            </HBox>
+
+            <!-- Filtros de estado -->
+            <HBox spacing="8" style="-fx-padding:12 20 0 20;">
+                <Button text="Todas"      styleClass="btn-secondary" onAction="#filtrarTodas"/>
+                <Button text="Pendientes" styleClass="btn-secondary" onAction="#filtrarPendientes"/>
+                <Button text="Confirmadas" styleClass="btn-secondary" onAction="#filtrarConfirmadas"/>
+                <Button text="Canceladas" styleClass="btn-secondary" onAction="#filtrarCanceladas"/>
+            </HBox>
+
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background:#1e2128; -fx-background-color:#1e2128;">
+                <VBox style="-fx-padding:16 20;">
+                    <TableView fx:id="citasTable" styleClass="table-view"
+                               VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colCliente"     text="Cliente"    prefWidth="160"/>
+                            <TableColumn fx:id="colVehiculo"    text="Vehículo"   prefWidth="180"/>
+                            <TableColumn fx:id="colFecha"       text="Fecha"      prefWidth="100"/>
+                            <TableColumn fx:id="colHora"        text="Hora"       prefWidth="70"/>
+                            <TableColumn fx:id="colTipo"        text="Tipo"       prefWidth="120"/>
+                            <TableColumn fx:id="colEstado"      text="Estado"     prefWidth="110"/>
+                            <TableColumn fx:id="colAcciones"    text="Acciones"   prefWidth="180"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="No hay citas" styleClass="text-hint"/>
+                        </placeholder>
+                    </TableView>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

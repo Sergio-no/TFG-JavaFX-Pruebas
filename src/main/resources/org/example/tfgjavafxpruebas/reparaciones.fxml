@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.tfgjavafxpruebas.controller.ReparacionesController"
+            styleClass="bg-primary" prefWidth="1200" prefHeight="760">
+    <left><fx:include source="sidebar.fxml"/></left>
+    <center>
+        <VBox>
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding:12 20; -fx-background-color:#1a1d23;
+                         -fx-border-color:#2e333d; -fx-border-width:0 0 1 0;">
+                <Label text="Reparaciones" styleClass="text-primary"
+                       style="-fx-font-size:15px; -fx-font-weight:500;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="+ Nueva reparación" styleClass="btn-primary"
+                        onAction="#abrirNuevaReparacion"/>
+            </HBox>
+            <HBox spacing="8" style="-fx-padding:12 20 0 20;">
+                <Button text="Todas"      styleClass="btn-secondary" onAction="#filtrarTodas"/>
+                <Button text="En proceso" styleClass="btn-secondary" onAction="#filtrarEnProceso"/>
+                <Button text="Terminadas" styleClass="btn-secondary" onAction="#filtrarTerminadas"/>
+                <Button text="Confirmadas" styleClass="btn-secondary" onAction="#filtrarConfirmadas"/>
+            </HBox>
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background:#1e2128; -fx-background-color:#1e2128;">
+                <VBox style="-fx-padding:16 20;">
+                    <TableView fx:id="reparacionesTable" styleClass="table-view">
+                        <columns>
+                            <TableColumn fx:id="colVehiculo"    text="Vehículo"   prefWidth="200"/>
+                            <TableColumn fx:id="colMecanico"    text="Mecánico"   prefWidth="140"/>
+                            <TableColumn fx:id="colFechaInicio" text="Inicio"     prefWidth="90"/>
+                            <TableColumn fx:id="colFechaFin"    text="Fin"        prefWidth="90"/>
+                            <TableColumn fx:id="colEstado"      text="Estado"     prefWidth="110"/>
+                            <TableColumn fx:id="colCoste"       text="Coste"      prefWidth="90"/>
+                            <TableColumn fx:id="colAcciones"    text="Acciones"   prefWidth="200"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="No hay reparaciones" styleClass="text-hint"/>
+                        </placeholder>
+                    </TableView>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

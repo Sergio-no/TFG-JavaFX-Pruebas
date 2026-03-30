@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.autoelite.controller.DashboardController"
+            styleClass="bg-primary"
+            prefWidth="1200" prefHeight="760">
+
+    <!-- ══ SIDEBAR ══════════════════════════════════════ -->
+    <left>
+        <VBox styleClass="bg-sidebar" prefWidth="200"
+              style="-fx-border-color: #2e333d; -fx-border-width: 0 1 0 0;">
+
+            <!-- Logo -->
+            <VBox style="-fx-padding: 20 16 16 16;
+                         -fx-border-color: #2e333d;
+                         -fx-border-width: 0 0 1 0;">
+                <Label text="AutoElite"
+                       styleClass="text-blue"
+                       style="-fx-font-size: 16px; -fx-font-weight: 500;"/>
+                <Label text="Panel de gestión"
+                       styleClass="text-hint"
+                       style="-fx-font-size: 11px;"/>
+            </VBox>
+
+            <!-- Nav -->
+            <Label text="PRINCIPAL" styleClass="nav-section"/>
+            <Button fx:id="navDashboard" text="  Dashboard"
+                    styleClass="nav-item, nav-item-active"
+                    onAction="#goToDashboard" maxWidth="Infinity"/>
+
+            <Label text="GESTIÓN" styleClass="nav-section"/>
+            <Button fx:id="navCitas" text="  Citas"
+                    styleClass="nav-item" onAction="#goToCitas" maxWidth="Infinity"/>
+            <Button fx:id="navReparaciones" text="  Reparaciones"
+                    styleClass="nav-item" onAction="#goToReparaciones" maxWidth="Infinity"/>
+            <Button fx:id="navInventario" text="  Inventario"
+                    styleClass="nav-item" onAction="#goToInventario" maxWidth="Infinity"/>
+            <Button fx:id="navFacturas" text="  Facturación"
+                    styleClass="nav-item" onAction="#goToFacturas" maxWidth="Infinity"/>
+
+            <Label text="ADMIN" styleClass="nav-section"/>
+            <Button fx:id="navClientes" text="  Clientes"
+                    styleClass="nav-item" onAction="#goToClientes" maxWidth="Infinity"/>
+            <Button fx:id="navEstadisticas" text="  Estadísticas"
+                    styleClass="nav-item" onAction="#goToEstadisticas" maxWidth="Infinity"/>
+
+            <!-- Spacer -->
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <!-- Usuario logado -->
+            <VBox style="-fx-padding: 12 16;
+                         -fx-border-color: #2e333d;
+                         -fx-border-width: 1 0 0 0;">
+                <Label fx:id="userEmailLabel"
+                       styleClass="text-muted"
+                       style="-fx-font-size: 11px;" wrapText="true"/>
+                <Button text="Cerrar sesión"
+                        styleClass="btn-secondary"
+                        style="-fx-padding: 4 0; -fx-font-size: 11px;"
+                        onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- ══ CONTENIDO PRINCIPAL ══════════════════════════ -->
+    <center>
+        <VBox>
+
+            <!-- Topbar -->
+            <HBox alignment="CENTER_LEFT"
+                  style="-fx-padding: 12 20;
+                         -fx-background-color: #1a1d23;
+                         -fx-border-color: #2e333d;
+                         -fx-border-width: 0 0 1 0;"
+                  spacing="10">
+                <Label text="Dashboard"
+                       styleClass="text-primary"
+                       style="-fx-font-size: 15px; -fx-font-weight: 500;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="fechaLabel" styleClass="text-muted" style="-fx-font-size: 12px;"/>
+                <Label fx:id="rolBadge" text="Oficina"
+                       styleClass="pill, pill-active"
+                       style="-fx-padding: 3 10;"/>
+            </HBox>
+
+            <!-- Scroll del contenido -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background-color: transparent;
+                               -fx-background: #1e2128;">
+                <VBox spacing="20" style="-fx-padding: 20;">
+
+                    <!-- ── Métricas ───────────────────── -->
+                    <GridPane hgap="12" vgap="12">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                        </columnConstraints>
+
+                        <!-- Citas hoy -->
+                        <VBox styleClass="card" spacing="4" GridPane.columnIndex="0">
+                            <Label text="Citas hoy" styleClass="text-hint"
+                                   style="-fx-font-size: 11px;"/>
+                            <Label fx:id="metricCitas" text="—"
+                                   styleClass="text-blue"
+                                   style="-fx-font-size: 26px; -fx-font-weight: 500;"/>
+                            <Label fx:id="metricCitasSub" text=""
+                                   styleClass="text-muted" style="-fx-font-size: 11px;"/>
+                        </VBox>
+
+                        <!-- Reparaciones activas -->
+                        <VBox styleClass="card" spacing="4" GridPane.columnIndex="1">
+                            <Label text="Reparaciones activas" styleClass="text-hint"
+                                   style="-fx-font-size: 11px;"/>
+                            <Label fx:id="metricRep" text="—"
+                                   styleClass="text-blue"
+                                   style="-fx-font-size: 26px; -fx-font-weight: 500;"/>
+                            <Label fx:id="metricRepSub" text=""
+                                   styleClass="text-muted" style="-fx-font-size: 11px;"/>
+                        </VBox>
+
+                        <!-- Facturación hoy -->
+                        <VBox styleClass="card" spacing="4" GridPane.columnIndex="2">
+                            <Label text="Facturación hoy" styleClass="text-hint"
+                                   style="-fx-font-size: 11px;"/>
+                            <Label fx:id="metricFacturacion" text="—"
+                                   styleClass="text-blue"
+                                   style="-fx-font-size: 26px; -fx-font-weight: 500;"/>
+                            <Label fx:id="metricFacturacionSub" text=""
+                                   styleClass="text-muted" style="-fx-font-size: 11px;"/>
+                        </VBox>
+
+                        <!-- Alertas stock -->
+                        <VBox styleClass="card" spacing="4" GridPane.columnIndex="3">
+                            <Label text="Alertas de stock" styleClass="text-hint"
+                                   style="-fx-font-size: 11px;"/>
+                            <Label fx:id="metricAlertas" text="—"
+                                   styleClass="text-danger"
+                                   style="-fx-font-size: 26px; -fx-font-weight: 500;"/>
+                            <Label fx:id="metricAlertasSub" text=""
+                                   styleClass="text-muted" style="-fx-font-size: 11px;"/>
+                        </VBox>
+                    </GridPane>
+
+                    <!-- ── Tablas ─────────────────────── -->
+                    <HBox spacing="16">
+
+                        <!-- Próximas citas -->
+                        <VBox spacing="10" HBox.hgrow="ALWAYS">
+                            <HBox alignment="CENTER_LEFT">
+                                <Label text="Próximas citas"
+                                       styleClass="text-muted"
+                                       style="-fx-font-size: 13px;"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Button text="Ver todas"
+                                        styleClass="btn-secondary"
+                                        onAction="#goToCitas"/>
+                            </HBox>
+                            <TableView fx:id="citasTable"
+                                       styleClass="table-view"
+                                       prefHeight="280"
+                                       style="-fx-pref-width: 9999;">
+                                <columns>
+                                    <TableColumn fx:id="colCitaCliente"
+                                                 text="Cliente" prefWidth="140"/>
+                                    <TableColumn fx:id="colCitaHora"
+                                                 text="Hora" prefWidth="70"/>
+                                    <TableColumn fx:id="colCitaTipo"
+                                                 text="Tipo" prefWidth="100"/>
+                                    <TableColumn fx:id="colCitaEstado"
+                                                 text="Estado" prefWidth="100"/>
+                                </columns>
+                                <placeholder>
+                                    <Label text="No hay citas para hoy"
+                                           styleClass="text-hint"/>
+                                </placeholder>
+                            </TableView>
+                        </VBox>
+
+                        <!-- Alertas de stock -->
+                        <VBox spacing="10" prefWidth="280">
+                            <Label text="Stock bajo"
+                                   styleClass="text-muted"
+                                   style="-fx-font-size: 13px;"/>
+                            <VBox fx:id="alertasContainer" spacing="6"/>
+                        </VBox>
+
+                    </HBox>
+
+                    <!-- Reparaciones activas -->
+                    <VBox spacing="10">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="Reparaciones en curso"
+                                   styleClass="text-muted"
+                                   style="-fx-font-size: 13px;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="Ver todas"
+                                    styleClass="btn-secondary"
+                                    onAction="#goToReparaciones"/>
+                        </HBox>
+                        <TableView fx:id="reparacionesTable"
+                                   styleClass="table-view"
+                                   prefHeight="200">
+                            <columns>
+                                <TableColumn fx:id="colRepVehiculo"
+                                             text="Vehículo" prefWidth="200"/>
+                                <TableColumn fx:id="colRepMecanico"
+                                             text="Mecánico" prefWidth="140"/>
+                                <TableColumn fx:id="colRepInicio"
+                                             text="Inicio" prefWidth="90"/>
+                                <TableColumn fx:id="colRepEstado"
+                                             text="Estado" prefWidth="110"/>
+                                <TableColumn fx:id="colRepCoste"
+                                             text="Coste" prefWidth="90"/>
+                            </columns>
+                            <placeholder>
+                                <Label text="No hay reparaciones activas"
+                                       styleClass="text-hint"/>
+                            </placeholder>
+                        </TableView>
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+
+</BorderPane>

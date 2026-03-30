@@ -1,0 +1,207 @@
+/* ── Variables de color ─────────────────────────── */
+.root {
+    -fx-font-family: "Segoe UI", "SF Pro Display", sans-serif;
+    bg-primary:   #1e2128;
+    bg-secondary: #1a1d23;
+    bg-sidebar:   #171a1f;
+    bg-card:      #1a1d23;
+    border-color: #2e333d;
+    blue-sky:     #7ec8e3;
+    blue-dark:    #1d4e6b;
+    text-primary: #e2e8f0;
+    text-muted:   #6b7280;
+    text-hint:    #4a5568;
+    danger:       #f87171;
+    success:      #4ade80;
+    warning:      #d4a72c;
+}
+
+/* ── Fondo general ──────────────────────────────── */
+.bg-primary   { -fx-background-color: #1e2128; }
+.bg-secondary { -fx-background-color: #1a1d23; }
+.bg-sidebar   { -fx-background-color: #171a1f; }
+
+/* ── Textos ─────────────────────────────────────── */
+.text-primary { -fx-text-fill: #e2e8f0; }
+.text-muted   { -fx-text-fill: #6b7280; }
+.text-hint    { -fx-text-fill: #4a5568; }
+.text-blue    { -fx-text-fill: #7ec8e3; }
+.text-danger  { -fx-text-fill: #f87171; }
+.text-success { -fx-text-fill: #4ade80; }
+.text-warning { -fx-text-fill: #d4a72c; }
+
+/* ── Tarjetas / paneles ─────────────────────────── */
+.card {
+    -fx-background-color: #1a1d23;
+    -fx-border-color: #2e333d;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 16;
+}
+
+/* ── Inputs ─────────────────────────────────────── */
+.input-field {
+    -fx-background-color: #12151a;
+    -fx-text-fill: #e2e8f0;
+    -fx-border-color: #2e333d;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 10 14;
+    -fx-font-size: 13px;
+    -fx-pref-height: 40;
+}
+.input-field:focused {
+    -fx-border-color: #7ec8e3;
+}
+.input-field .prompt-text-fill { /* placeholder */
+    -fx-prompt-text-fill: #4a5568;
+}
+
+/* ── Botón primario ─────────────────────────────── */
+.btn-primary {
+    -fx-background-color: #1d4e6b;
+    -fx-text-fill: #7ec8e3;
+    -fx-border-color: transparent;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 10 20;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-pref-height: 40;
+}
+.btn-primary:hover  { -fx-background-color: #24607f; }
+.btn-primary:pressed { -fx-scale-x: 0.98; -fx-scale-y: 0.98; }
+
+/* ── Botón secundario ───────────────────────────── */
+.btn-secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6b7280;
+    -fx-border-color: #2e333d;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 8 16;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+.btn-secondary:hover { -fx-text-fill: #7ec8e3; -fx-border-color: #7ec8e3; }
+
+/* ── Sidebar nav items ──────────────────────────── */
+.nav-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6b7280;
+    -fx-padding: 10 16;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER_LEFT;
+    -fx-pref-width: 200;
+    -fx-border-width: 0 0 0 2;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0;
+}
+.nav-item:hover {
+    -fx-background-color: #1e2128;
+    -fx-text-fill: #7ec8e3;
+}
+.nav-item-active {
+    -fx-background-color: #1e2128;
+    -fx-text-fill: #7ec8e3;
+    -fx-border-color: #7ec8e3;
+}
+
+/* ── Labels de sección sidebar ──────────────────── */
+.nav-section {
+    -fx-text-fill: #374151;
+    -fx-font-size: 10px;
+    -fx-padding: 12 16 4 16;
+}
+
+/* ── TableView ──────────────────────────────────── */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #2e333d;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+.table-view .column-header-background {
+    -fx-background-color: #12151a;
+}
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #2e333d transparent;
+    -fx-border-width: 0 0 1 0;
+}
+.table-view .column-header .label {
+    -fx-text-fill: #4a5568;
+    -fx-font-size: 12px;
+    -fx-padding: 8 10;
+}
+.table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #22262e transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-text-fill: #9ca3af;
+    -fx-font-size: 12px;
+}
+.table-row-cell:hover {
+    -fx-background-color: #1a1d23;
+}
+.table-row-cell:selected {
+    -fx-background-color: #1d4e6b;
+}
+.table-row-cell .table-cell {
+    -fx-padding: 9 10;
+    -fx-text-fill: #9ca3af;
+}
+.table-view .placeholder .label {
+    -fx-text-fill: #4a5568;
+}
+
+/* ── Pills / badges de estado ───────────────────── */
+.pill {
+    -fx-padding: 2 8;
+    -fx-background-radius: 20;
+    -fx-font-size: 11px;
+}
+.pill-pending   { -fx-background-color: #2d2a1a; -fx-text-fill: #d4a72c; }
+.pill-confirmed { -fx-background-color: #1a2d1a; -fx-text-fill: #4ade80; }
+.pill-active    { -fx-background-color: #1a2535; -fx-text-fill: #7ec8e3; }
+.pill-done      { -fx-background-color: #2a1a2a; -fx-text-fill: #c084fc; }
+.pill-low       { -fx-background-color: #2d1a1a; -fx-text-fill: #f87171; }
+
+/* ── Scrollbar ──────────────────────────────────── */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+.scroll-bar .track {
+    -fx-background-color: #22262e;
+    -fx-background-radius: 4;
+}
+.scroll-bar .thumb {
+    -fx-background-color: #2e333d;
+    -fx-background-radius: 4;
+}
+.scroll-bar .thumb:hover {
+    -fx-background-color: #7ec8e3;
+}
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+/* ── Separator ──────────────────────────────────── */
+.separator .line {
+    -fx-border-color: #2e333d;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* ── Label de error ─────────────────────────────── */
+.label-error {
+    -fx-text-fill: #f87171;
+    -fx-font-size: 12px;
+}

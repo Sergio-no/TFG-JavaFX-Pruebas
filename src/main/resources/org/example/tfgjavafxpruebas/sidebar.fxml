@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      styleClass="bg-sidebar" prefWidth="200"
+      style="-fx-border-color: #2e333d; -fx-border-width: 0 1 0 0;">
+
+    <VBox style="-fx-padding: 20 16 16 16;
+                 -fx-border-color: #2e333d; -fx-border-width: 0 0 1 0;">
+        <Label text="AutoElite" styleClass="text-blue"
+               style="-fx-font-size: 16px; -fx-font-weight: 500;"/>
+        <Label text="Panel de gestión" styleClass="text-hint"
+               style="-fx-font-size: 11px;"/>
+    </VBox>
+
+    <Label text="PRINCIPAL" styleClass="nav-section"/>
+    <Button text="  Dashboard"  styleClass="nav-item"
+            onAction="#goToDashboard"    maxWidth="Infinity"/>
+
+    <Label text="GESTIÓN" styleClass="nav-section"/>
+    <Button text="  Citas"         styleClass="nav-item"
+            onAction="#goToCitas"        maxWidth="Infinity"/>
+    <Button text="  Reparaciones"  styleClass="nav-item"
+            onAction="#goToReparaciones" maxWidth="Infinity"/>
+    <Button text="  Inventario"    styleClass="nav-item"
+            onAction="#goToInventario"   maxWidth="Infinity"/>
+    <Button text="  Facturación"   styleClass="nav-item"
+            onAction="#goToFacturas"     maxWidth="Infinity"/>
+
+    <Label text="ADMIN" styleClass="nav-section"/>
+    <Button text="  Clientes"      styleClass="nav-item"
+            onAction="#goToClientes"     maxWidth="Infinity"/>
+    <Button text="  Estadísticas"  styleClass="nav-item"
+            onAction="#goToEstadisticas" maxWidth="Infinity"/>
+
+    <Region VBox.vgrow="ALWAYS"/>
+
+    <VBox style="-fx-padding: 12 16;
+                 -fx-border-color: #2e333d; -fx-border-width: 1 0 0 0;">
+        <Label fx:id="userEmailLabel" styleClass="text-muted"
+               style="-fx-font-size: 11px;" wrapText="true"/>
+        <Button text="Cerrar sesión" styleClass="btn-secondary"
+                style="-fx-padding: 4 0; -fx-font-size: 11px;"
+                onAction="#handleLogout"/>
+    </VBox>
+</VBox>

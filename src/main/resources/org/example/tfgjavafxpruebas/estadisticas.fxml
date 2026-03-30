@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.autoelite.controller.EstadisticasController"
+            styleClass="bg-primary" prefWidth="1200" prefHeight="760">
+    <left><fx:include source="sidebar.fxml"/></left>
+    <center>
+        <VBox>
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding:12 20; -fx-background-color:#1a1d23;
+                         -fx-border-color:#2e333d; -fx-border-width:0 0 1 0;">
+                <Label text="Estadísticas" styleClass="text-primary"
+                       style="-fx-font-size:15px; -fx-font-weight:500;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="periodoLabel" styleClass="text-muted"
+                       style="-fx-font-size:12px;"/>
+            </HBox>
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background:#1e2128; -fx-background-color:#1e2128;">
+                <VBox spacing="16" style="-fx-padding:20;">
+
+                    <!-- Métricas globales -->
+                    <GridPane hgap="12">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="25"/>
+                        </columnConstraints>
+                        <VBox styleClass="card" spacing="4" GridPane.columnIndex="0">
+                            <Label text="Ingresos mes"      styleClass="text-hint" style="-fx-font-size:11px;"/>
+                            <Label fx:id="metricIngresos"   styleClass="text-blue" style="-fx-font-size:24px; -fx-font-weight:500;"/>
+                        </VBox>
+                        <VBox styleClass="card" spacing="4" GridPane.columnIndex="1">
+                            <Label text="Reparaciones"      styleClass="text-hint" style="-fx-font-size:11px;"/>
+                            <Label fx:id="metricReparaciones" styleClass="text-blue" style="-fx-font-size:24px; -fx-font-weight:500;"/>
+                        </VBox>
+                        <VBox styleClass="card" spacing="4" GridPane.columnIndex="2">
+                            <Label text="Ticket medio"      styleClass="text-hint" style="-fx-font-size:11px;"/>
+                            <Label fx:id="metricTicket"     styleClass="text-blue" style="-fx-font-size:24px; -fx-font-weight:500;"/>
+                        </VBox>
+                        <VBox styleClass="card" spacing="4" GridPane.columnIndex="3">
+                            <Label text="Valoración media"  styleClass="text-hint" style="-fx-font-size:11px;"/>
+                            <Label fx:id="metricValoracion" styleClass="text-blue" style="-fx-font-size:24px; -fx-font-weight:500;"/>
+                        </VBox>
+                    </GridPane>
+
+                    <!-- Tablas -->
+                    <HBox spacing="16">
+                        <VBox spacing="8" HBox.hgrow="ALWAYS">
+                            <Label text="Rendimiento por mecánico"
+                                   styleClass="text-muted" style="-fx-font-size:13px;"/>
+                            <TableView fx:id="mecanicosTable" styleClass="table-view" prefHeight="220">
+                                <columns>
+                                    <TableColumn fx:id="colMecNombre"   text="Mecánico"      prefWidth="160"/>
+                                    <TableColumn fx:id="colMecRep"      text="Reparaciones"  prefWidth="110"/>
+                                    <TableColumn fx:id="colMecIngresos" text="Ingresos"      prefWidth="110"/>
+                                </columns>
+                                <placeholder>
+                                    <Label text="Sin datos" styleClass="text-hint"/>
+                                </placeholder>
+                            </TableView>
+                        </VBox>
+                        <VBox spacing="8" HBox.hgrow="ALWAYS">
+                            <Label text="Últimas valoraciones"
+                                   styleClass="text-muted" style="-fx-font-size:13px;"/>
+                            <TableView fx:id="valoracionesTable" styleClass="table-view" prefHeight="220">
+                                <columns>
+                                    <TableColumn fx:id="colValCliente"  text="Cliente"    prefWidth="160"/>
+                                    <TableColumn fx:id="colValPuntos"   text="Puntuación" prefWidth="100"/>
+                                    <TableColumn fx:id="colValComentario" text="Comentario" prefWidth="200"/>
+                                </columns>
+                                <placeholder>
+                                    <Label text="Sin valoraciones" styleClass="text-hint"/>
+                                </placeholder>
+                            </TableView>
+                        </VBox>
+                    </HBox>
+
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

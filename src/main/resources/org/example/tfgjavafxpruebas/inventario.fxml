@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.autoelite.controller.InventarioController"
+            styleClass="bg-primary" prefWidth="1200" prefHeight="760">
+    <left><fx:include source="sidebar.fxml"/></left>
+    <center>
+        <VBox>
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding:12 20; -fx-background-color:#1a1d23;
+                         -fx-border-color:#2e333d; -fx-border-width:0 0 1 0;">
+                <Label text="Inventario" styleClass="text-primary"
+                       style="-fx-font-size:15px; -fx-font-weight:500;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="searchField" promptText="Buscar pieza..."
+                           styleClass="input-field" prefWidth="200"/>
+                <Button text="+ Nueva pieza" styleClass="btn-primary"
+                        onAction="#abrirNuevaPieza"/>
+            </HBox>
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background:#1e2128; -fx-background-color:#1e2128;">
+                <VBox style="-fx-padding:16 20;">
+                    <TableView fx:id="piezasTable" styleClass="table-view">
+                        <columns>
+                            <TableColumn fx:id="colNombre"   text="Pieza"        prefWidth="200"/>
+                            <TableColumn fx:id="colPrecio"   text="Precio unit."  prefWidth="100"/>
+                            <TableColumn fx:id="colStock"    text="Stock actual"  prefWidth="110"/>
+                            <TableColumn fx:id="colMinimo"   text="Mínimo"        prefWidth="80"/>
+                            <TableColumn fx:id="colEstado"   text="Estado"        prefWidth="110"/>
+                            <TableColumn fx:id="colAcciones" text="Acciones"      prefWidth="180"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="No hay piezas registradas" styleClass="text-hint"/>
+                        </placeholder>
+                    </TableView>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

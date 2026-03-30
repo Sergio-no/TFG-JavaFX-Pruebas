@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.tfgjavafxpruebas.controller.ClientesController"
+            styleClass="bg-primary" prefWidth="1200" prefHeight="760">
+    <left><fx:include source="sidebar.fxml"/></left>
+    <center>
+        <VBox>
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding:12 20; -fx-background-color:#1a1d23;
+                         -fx-border-color:#2e333d; -fx-border-width:0 0 1 0;">
+                <Label text="Clientes" styleClass="text-primary"
+                       style="-fx-font-size:15px; -fx-font-weight:500;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="searchField" promptText="Buscar por nombre o email..."
+                           styleClass="input-field" prefWidth="240"/>
+            </HBox>
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background:#1e2128; -fx-background-color:#1e2128;">
+                <VBox style="-fx-padding:16 20;">
+                    <TableView fx:id="clientesTable" styleClass="table-view">
+                        <columns>
+                            <TableColumn fx:id="colNombre"   text="Nombre"        prefWidth="180"/>
+                            <TableColumn fx:id="colEmail"    text="Email"         prefWidth="200"/>
+                            <TableColumn fx:id="colTelefono" text="Teléfono"      prefWidth="120"/>
+                            <TableColumn fx:id="colPuntos"   text="Puntos CRM"    prefWidth="100"/>
+                            <TableColumn fx:id="colGastado"  text="Total gastado" prefWidth="110"/>
+                            <TableColumn fx:id="colRegistro" text="Registro"      prefWidth="100"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="No hay clientes registrados" styleClass="text-hint"/>
+                        </placeholder>
+                    </TableView>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.tfgjavafxpruebas.controller.FacturasController"
+            styleClass="bg-primary" prefWidth="1200" prefHeight="760">
+    <left><fx:include source="sidebar.fxml"/></left>
+    <center>
+        <VBox>
+            <HBox alignment="CENTER_LEFT" spacing="10"
+                  style="-fx-padding:12 20; -fx-background-color:#1a1d23;
+                         -fx-border-color:#2e333d; -fx-border-width:0 0 1 0;">
+                <Label text="Facturación" styleClass="text-primary"
+                       style="-fx-font-size:15px; -fx-font-weight:500;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="totalLabel" styleClass="text-blue"
+                       style="-fx-font-size:14px;"/>
+            </HBox>
+            <HBox spacing="8" style="-fx-padding:12 20 0 20;">
+                <Button text="Todas"    styleClass="btn-secondary" onAction="#filtrarTodas"/>
+                <Button text="Pendientes" styleClass="btn-secondary" onAction="#filtrarPendientes"/>
+                <Button text="Pagadas"  styleClass="btn-secondary" onAction="#filtrarPagadas"/>
+            </HBox>
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background:#1e2128; -fx-background-color:#1e2128;">
+                <VBox style="-fx-padding:16 20;">
+                    <TableView fx:id="facturasTable" styleClass="table-view">
+                        <columns>
+                            <TableColumn fx:id="colNumero"   text="Nº Factura"   prefWidth="150"/>
+                            <TableColumn fx:id="colCliente"  text="Cliente"      prefWidth="160"/>
+                            <TableColumn fx:id="colFecha"    text="Fecha"        prefWidth="100"/>
+                            <TableColumn fx:id="colTotal"    text="Total"        prefWidth="90"/>
+                            <TableColumn fx:id="colMetodo"   text="Método pago"  prefWidth="120"/>
+                            <TableColumn fx:id="colEstado"   text="Estado"       prefWidth="100"/>
+                            <TableColumn fx:id="colAcciones" text="Acciones"     prefWidth="160"/>
+                        </columns>
+                        <placeholder>
+                            <Label text="No hay facturas" styleClass="text-hint"/>
+                        </placeholder>
+                    </TableView>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>
