@@ -23,7 +23,6 @@ public class LoginController {
         String email = emailField.getText().trim();
         String password = passwordField.getText();
 
-        // Validación básica en cliente
         if (email.isEmpty() || password.isEmpty()) {
             showError("Por favor, introduce email y contraseña.");
             return;
@@ -31,26 +30,13 @@ public class LoginController {
 
         setLoading(true);
 
-        // Llamada en hilo separado para no bloquear la UI
-        new Thread(() -> {
-            try {
-                String token = authService.login(email, password);
-                // Guardamos el token en la sesión global
-                UserSesion.getInstance().setToken(token);
-                UserSesion.getInstance().setEmail(email);
+        // En modo test — guardamos email y navegamos directamente
+        UserSesion.getInstance().setToken("test-token");
+        UserSesion.getInstance().setEmail(email);
+        UserSesion.getInstance().setRol("JEFE");
 
-                Platform.runLater(() -> {
-                    setLoading(false);
-                    AutoEliteApp.navigateTo("dashboard");
-                });
-
-            } catch (Exception e) {
-                Platform.runLater(() -> {
-                    setLoading(false);
-                    showError("Credenciales incorrectas o error de conexión.");
-                });
-            }
-        }).start();
+        setLoading(false);
+        AutoEliteApp.navigateTo("dashboard");
     }
 
     private void showError(String message) {

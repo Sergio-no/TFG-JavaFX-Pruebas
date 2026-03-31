@@ -4,7 +4,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.autoelite.controller.EstadisticasController"
+            fx:controller="org.example.tfgjavafxpruebas.controller.EstadisticasController"
             styleClass="bg-primary" prefWidth="1200" prefHeight="760">
     <left><fx:include source="sidebar.fxml"/></left>
     <center>

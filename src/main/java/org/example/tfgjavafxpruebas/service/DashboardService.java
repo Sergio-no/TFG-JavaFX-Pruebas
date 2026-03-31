@@ -20,68 +20,55 @@ public class DashboardService {
     private final HttpClient client = HttpClient.newHttpClient();
     private final ObjectMapper mapper = new ObjectMapper();
 
-    private HttpRequest.Builder authedRequest(String path) {
-        return HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL + path))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + UserSesion.getInstance().getToken());
+    private JsonNode getDashboardData() throws Exception {
+        HttpResponse<String> response = client.send(
+                HttpRequest.newBuilder()
+                        .uri(URI.create(BASE_URL + "/dashboard"))
+                        .header("Authorization", "Bearer " + UserSesion.getInstance().getToken())
+                        .GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+        return mapper.readTree(response.body());
     }
 
     public List<CitaResumen> getCitasHoy() throws Exception {
-        HttpResponse<String> response = client.send(
-                authedRequest("/dashboard/citas-hoy").GET().build(),
-                HttpResponse.BodyHandlers.ofString()
-        );
+        JsonNode data = getDashboardData();
         List<CitaResumen> result = new ArrayList<>();
-        JsonNode arr = mapper.readTree(response.body());
-        for (JsonNode node : arr) {
+        for (JsonNode n : data.path("proximasCitas")) {
             result.add(new CitaResumen(
-                    node.get("clienteNombre").asText(),
-                    node.get("hora").asText(),
-                    node.get("tipo").asText(),
-                    node.get("estado").asText()
-            ));
-        }
-        return result;
-    }
-
-    public List<AlertaStock> getAlertasStock() throws Exception {
-        HttpResponse<String> response = client.send(
-                authedRequest("/dashboard/alertas-stock").GET().build(),
-                HttpResponse.BodyHandlers.ofString()
-        );
-        List<AlertaStock> result = new ArrayList<>();
-        JsonNode arr = mapper.readTree(response.body());
-        for (JsonNode node : arr) {
-            result.add(new AlertaStock(
-                    node.get("nombre").asText(),
-                    node.get("stockActual").asInt(),
-                    node.get("stockMinimo").asInt()
+                    n.path("clienteNombre").asText(),
+                    n.path("hora").asText(),
+                    n.path("tipo").asText("—"),
+                    n.path("estado").asText()
             ));
         }
         return result;
     }
 
     public List<ReparacionResumen> getReparacionesActivas() throws Exception {
-        HttpResponse<String> response = client.send(
-                authedRequest("/dashboard/reparaciones-activas").GET().build(),
-                HttpResponse.BodyHandlers.ofString()
-        );
+        JsonNode data = getDashboardData();
         List<ReparacionResumen> result = new ArrayList<>();
-        JsonNode arr = mapper.readTree(response.body());
-        for (JsonNode node : arr) {
+        for (JsonNode n : data.path("reparacionesEnCurso")) {
             result.add(new ReparacionResumen(
-                    node.get("vehiculo").asText(),
-                    node.get("mecanico").asText(),
-                    node.get("fechaInicio").asText(),
-                    node.get("estado").asText(),
-                    node.get("costeTotal").asText() + "€"
+                    n.path("vehiculo").asText("—"),
+                    n.path("mecanico").asText("—"),
+                    n.path("fechaInicio").asText(""),
+                    n.path("estado").asText(""),
+                    n.path("costeTotal").asText("0") + "€"
             ));
         }
         return result;
     }
 
-    public int getCitasHoyCount()       throws Exception { return getCitasHoy().size(); }
-    public int getReparacionesCount()   throws Exception { return getReparacionesActivas().size(); }
-    public int getAlertasStockCount()   throws Exception { return getAlertasStock().size(); }
+    public List<AlertaStock> getAlertasStock() throws Exception {
+        JsonNode data = getDashboardData();
+        List<AlertaStock> result = new ArrayList<>();
+        for (JsonNode n : data.path("piezasStockBajo")) {
+            result.add(new AlertaStock(
+                    n.path("nombre").asText(),
+                    n.path("stockActual").asInt(),
+                    n.path("stockMinimo").asInt()
+            ));
+        }
+        return result;
+    }
 }
