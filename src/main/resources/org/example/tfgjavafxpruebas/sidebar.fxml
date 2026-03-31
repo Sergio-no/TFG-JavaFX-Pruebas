@@ -4,6 +4,7 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.tfgjavafxpruebas.controller.SidebarController"
       styleClass="bg-sidebar" prefWidth="200"
       style="-fx-border-color: #2e333d; -fx-border-width: 0 1 0 0;">
 
