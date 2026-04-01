@@ -105,26 +105,53 @@ public class InventarioController extends BaseController implements Initializabl
 
         TextField nombre  = campo("Nombre de la pieza");
         TextField desc    = campo("Descripción");
-        TextField precio  = campo("Precio unitario (€)");
-        TextField stock   = campo("Stock inicial");
-        TextField minimo  = campo("Stock mínimo");
+        TextField precio  = campo("Precio unitario (ej: 12.50)");
+        TextField stock   = campo("Stock inicial (ej: 10)");
+        TextField minimo  = campo("Stock mínimo (ej: 5)");
 
         javafx.scene.layout.VBox content = new javafx.scene.layout.VBox(10,
-                lbl("Nombre"), nombre, lbl("Descripción"), desc,
-                lbl("Precio €"), precio, lbl("Stock inicial"), stock, lbl("Stock mínimo"), minimo
+                lbl("Nombre *"), nombre, lbl("Descripción"), desc,
+                lbl("Precio €*"), precio, lbl("Stock inicial *"), stock,
+                lbl("Stock mínimo *"), minimo
         );
         content.setStyle("-fx-padding:16;");
         dialog.getDialogPane().setContent(content);
 
+        // Deshabilitar OK si campos vacíos
+        javafx.scene.Node okButton = dialog.getDialogPane()
+                .lookupButton(ButtonType.OK);
+        okButton.setDisable(true);
+        nombre.textProperty().addListener((obs, old, val) ->
+                okButton.setDisable(val.trim().isEmpty()));
+
         dialog.setResultConverter(bt -> {
             if (bt == ButtonType.OK) {
-                accion(() -> service.crear(Map.of(
-                        "nombre",         nombre.getText(),
-                        "descripcion",    desc.getText(),
-                        "precioUnitario", Double.parseDouble(precio.getText()),
-                        "stockActual",    Integer.parseInt(stock.getText()),
-                        "stockMinimo",    Integer.parseInt(minimo.getText())
-                )));
+                try {
+                    String nombreVal = nombre.getText().trim();
+                    String descVal   = desc.getText().trim();
+                    double precioVal = Double.parseDouble(
+                            precio.getText().trim().replace(",", "."));
+                    int stockVal     = Integer.parseInt(stock.getText().trim());
+                    int minimoVal    = Integer.parseInt(minimo.getText().trim());
+
+                    Map<String, Object> body = new java.util.HashMap<>();
+                    body.put("nombre",          nombreVal);
+                    body.put("descripcion",     descVal);
+                    body.put("precioUnitario",  precioVal);
+                    body.put("stockActual",     stockVal);
+                    body.put("stockMinimo",     minimoVal);
+
+                    accion(() -> service.crear(body));
+
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error de formato");
+                    alert.setHeaderText(null);
+                    alert.setContentText(
+                            "Precio, stock y mínimo deben ser números.\n" +
+                                    "Ejemplo precio: 12.50  |  Stock: 10");
+                    alert.showAndWait();
+                }
             }
             return null;
         });
