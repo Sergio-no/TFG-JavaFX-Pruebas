@@ -8,6 +8,9 @@ public class UserSesion {
     private String token;
     private String email;
     private String rol; // OFICINA, JEFE, COMERCIAL
+    private String uid;
+    public String getUid() { return uid; }
+    public void setUid(String uid) { this.uid = uid; }
 
     private UserSesion() {}
 

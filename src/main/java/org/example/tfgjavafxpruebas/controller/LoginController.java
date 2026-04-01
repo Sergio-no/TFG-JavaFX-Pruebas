@@ -30,15 +30,29 @@ public class LoginController {
 
         setLoading(true);
 
-        // En modo test — guardamos email y navegamos directamente
-        UserSesion.getInstance().setToken("test-token");
-        UserSesion.getInstance().setEmail(email);
-        UserSesion.getInstance().setRol("JEFE");
+        new Thread(() -> {
+            try {
+                String token = authService.login(email, password);
+                String uid   = authService.getUid(token);
 
-        setLoading(false);
-        AutoEliteApp.navigateTo("dashboard");
+                UserSesion.getInstance().setToken(token);
+                UserSesion.getInstance().setEmail(email);
+                UserSesion.getInstance().setUid(uid);
+                UserSesion.getInstance().setRol("JEFE");
+
+                Platform.runLater(() -> {
+                    setLoading(false);
+                    AutoEliteApp.navigateTo("dashboard");
+                });
+
+            } catch (Exception e) {
+                Platform.runLater(() -> {
+                    setLoading(false);
+                    showError("Credenciales incorrectas o error de conexión.");
+                });
+            }
+        }).start();
     }
-
     private void showError(String message) {
         errorLabel.setText(message);
     }
