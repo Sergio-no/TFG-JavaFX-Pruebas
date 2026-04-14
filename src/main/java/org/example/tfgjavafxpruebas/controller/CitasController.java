@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import org.example.tfgjavafxpruebas.service.ClientesService;
 import org.example.tfgjavafxpruebas.util.ConfirmDialog;
 
 import java.net.URL;
@@ -122,13 +123,21 @@ public class CitasController extends BaseController implements Initializable {
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("Nueva cita");
         dialog.getDialogPane().setStyle("-fx-background-color: #1a1d23;");
-        dialog.getDialogPane().getButtonTypes().addAll(
-                ButtonType.OK, ButtonType.CANCEL);
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
-        // Campos básicos
-        TextField clienteIdField = new TextField();
-        clienteIdField.setPromptText("ID del cliente");
-        clienteIdField.getStyleClass().add("input-field");
+        ComboBox<ClientesService.ClienteItem> clienteCombo = new ComboBox<>();
+        clienteCombo.getStyleClass().add("input-field");
+        clienteCombo.setMaxWidth(Double.MAX_VALUE);
+        clienteCombo.setPromptText("Selecciona cliente...");
+
+        // Cargar clientes en background
+        new Thread(() -> {
+            try {
+                var lista = new ClientesService().getAllLite();
+                javafx.application.Platform.runLater(() ->
+                        clienteCombo.getItems().setAll(lista));
+            } catch (Exception ex) { ex.printStackTrace(); }
+        }).start();
 
         TextField vehiculoIdField = new TextField();
         vehiculoIdField.setPromptText("ID del vehículo");
@@ -146,10 +155,10 @@ public class CitasController extends BaseController implements Initializable {
         tipoField.getStyleClass().add("input-field");
 
         javafx.scene.layout.VBox content = new javafx.scene.layout.VBox(10,
-                label("ID Cliente"), clienteIdField,
-                label("ID Vehículo"), vehiculoIdField,
-                label("Fecha"), fechaPicker,
-                label("Hora"), horaField,
+                label("Cliente"),       clienteCombo,
+                label("ID Vehículo"),   vehiculoIdField,
+                label("Fecha"),         fechaPicker,
+                label("Hora"),          horaField,
                 label("Tipo de servicio"), tipoField
         );
         content.setStyle("-fx-padding: 16;");
@@ -157,12 +166,24 @@ public class CitasController extends BaseController implements Initializable {
 
         dialog.setResultConverter(bt -> {
             if (bt == ButtonType.OK) {
-                accion(() -> service.crear(java.util.Map.of(
-                        "clienteId",  Long.parseLong(clienteIdField.getText()),
-                        "vehiculoId", Long.parseLong(vehiculoIdField.getText()),
-                        "fecha",      fechaPicker.getValue().toString() + "T" + horaField.getText() + ":00",
-                        "descripcion", tipoField.getText()
-                )));
+                if (clienteCombo.getValue() == null || vehiculoIdField.getText().isBlank()
+                        || fechaPicker.getValue() == null || horaField.getText().isBlank()) {
+                    org.example.tfgjavafxpruebas.util.ConfirmDialog.error(
+                            "Campos obligatorios", "Completa todos los campos.");
+                    return null;
+                }
+                try {
+                    accion(() -> service.crear(java.util.Map.of(
+                            "clienteId",   clienteCombo.getValue().getId(),
+                            "vehiculoId",  Long.parseLong(vehiculoIdField.getText().trim()),
+                            "fecha",       fechaPicker.getValue().toString() + "T"
+                                    + horaField.getText().trim() + ":00",
+                            "descripcion", tipoField.getText().trim()
+                    )));
+                } catch (NumberFormatException ex) {
+                    org.example.tfgjavafxpruebas.util.ConfirmDialog.error(
+                            "ID inválido", "El ID del vehículo debe ser un número.");
+                }
             }
             return null;
         });

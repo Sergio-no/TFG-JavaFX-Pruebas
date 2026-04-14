@@ -108,13 +108,27 @@ public class ReparacionesController extends BaseController implements Initializa
         dialog.getDialogPane().setStyle("-fx-background-color:#1a1d23;");
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
-        TextField vehiculoId  = campo("ID Vehículo");
-        TextField mecanicoId  = campo("ID Mecánico");
-        TextField citaId      = campo("ID Cita (opcional)");
+        TextField vehiculoId = campo("ID Vehículo");
+
+        ComboBox<org.example.tfgjavafxpruebas.service.MecanicosService.MecanicoItem> mecanicoCombo
+                = new ComboBox<>();
+        mecanicoCombo.getStyleClass().add("input-field");
+        mecanicoCombo.setMaxWidth(Double.MAX_VALUE);
+        mecanicoCombo.setPromptText("Selecciona mecánico...");
+
+        new Thread(() -> {
+            try {
+                var lista = new org.example.tfgjavafxpruebas.service.MecanicosService().getActivos();
+                javafx.application.Platform.runLater(() ->
+                        mecanicoCombo.getItems().setAll(lista));
+            } catch (Exception ex) { ex.printStackTrace(); }
+        }).start();
+
+        TextField citaId = campo("ID Cita (opcional)");
 
         javafx.scene.layout.VBox content = new javafx.scene.layout.VBox(10,
                 lbl("ID Vehículo"), vehiculoId,
-                lbl("ID Mecánico"), mecanicoId,
+                lbl("Mecánico"),    mecanicoCombo,
                 lbl("ID Cita"),     citaId
         );
         content.setStyle("-fx-padding:16;");
@@ -122,12 +136,23 @@ public class ReparacionesController extends BaseController implements Initializa
 
         dialog.setResultConverter(bt -> {
             if (bt == ButtonType.OK) {
-                Map<String, Object> body = new HashMap<>();
-                body.put("vehiculoId",  Long.parseLong(vehiculoId.getText()));
-                body.put("mecanicoId",  Long.parseLong(mecanicoId.getText()));
-                if (!citaId.getText().isBlank())
-                    body.put("citaId", Long.parseLong(citaId.getText()));
-                accion(() -> service.crear(body));
+                if (vehiculoId.getText().isBlank() || mecanicoCombo.getValue() == null) {
+                    org.example.tfgjavafxpruebas.util.ConfirmDialog.error(
+                            "Campos obligatorios",
+                            "ID de vehículo y mecánico son obligatorios.");
+                    return null;
+                }
+                try {
+                    Map<String, Object> body = new HashMap<>();
+                    body.put("vehiculoId", Long.parseLong(vehiculoId.getText().trim()));
+                    body.put("mecanicoId", mecanicoCombo.getValue().getId());
+                    if (!citaId.getText().isBlank())
+                        body.put("citaId", Long.parseLong(citaId.getText().trim()));
+                    accion(() -> service.crear(body));
+                } catch (NumberFormatException ex) {
+                    org.example.tfgjavafxpruebas.util.ConfirmDialog.error(
+                            "ID inválido", "Los IDs deben ser números.");
+                }
             }
             return null;
         });

@@ -27,6 +27,31 @@ public class ClientesService {
         return list;
     }
 
+    /** Versión ligera: solo id + nombre para combos. */
+    public List<ClienteItem> getAllLite() throws Exception {
+        HttpResponse<String> r = client.send(
+                HttpRequest.newBuilder().uri(URI.create(BASE + "/clientes"))
+                        .header("Authorization", token()).GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+        List<ClienteItem> list = new ArrayList<>();
+        for (JsonNode n : mapper.readTree(r.body())) {
+            list.add(new ClienteItem(
+                    n.get("id").asLong(),
+                    n.path("nombre").asText() + " " + n.path("apellidos").asText()
+            ));
+        }
+        return list;
+    }
+
+    public static class ClienteItem {
+        private final Long id;
+        private final String nombre;
+        public ClienteItem(Long id, String nombre) { this.id = id; this.nombre = nombre; }
+        public Long getId() { return id; }
+        public String getNombre() { return nombre; }
+        @Override public String toString() { return nombre; }
+    }
+
     public void crear(Map<String, Object> body) throws Exception {
         HttpResponse<String> r = client.send(HttpRequest.newBuilder()
                 .uri(URI.create(BASE + "/clientes"))
