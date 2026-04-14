@@ -17,13 +17,19 @@
                 <Region HBox.hgrow="ALWAYS"/>
                 <TextField fx:id="searchField" promptText="Buscar por nombre o email..."
                            styleClass="input-field" prefWidth="240"/>
+                <Button fx:id="btnNuevo" text="+ Nuevo" styleClass="btn-primary"
+                        onAction="#abrirNuevoCliente"/>
+                <Button fx:id="btnEditar" text="Editar" styleClass="btn-secondary"
+                        onAction="#abrirEditarCliente"/>
+                <Button fx:id="btnEliminar" text="Eliminar" styleClass="btn-secondary"
+                        onAction="#eliminarClienteSeleccionado"/>
             </HBox>
             <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
                         style="-fx-background:#1e2128; -fx-background-color:#1e2128;">
                 <VBox style="-fx-padding:16 20;">
                     <TableView fx:id="clientesTable" styleClass="table-view">
                         <columns>
-                            <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                            <TableColumn fx:id="colId"       text="ID"            prefWidth="60"/>
                             <TableColumn fx:id="colNombre"   text="Nombre"        prefWidth="180"/>
                             <TableColumn fx:id="colEmail"    text="Email"         prefWidth="200"/>
                             <TableColumn fx:id="colTelefono" text="Teléfono"      prefWidth="120"/>
