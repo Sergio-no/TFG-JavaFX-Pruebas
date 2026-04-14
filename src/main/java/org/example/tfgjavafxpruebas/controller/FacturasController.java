@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import org.example.tfgjavafxpruebas.util.ConfirmDialog;
 
 import java.net.URL;
 import java.util.*;
@@ -57,7 +58,10 @@ public class FacturasController extends BaseController implements Initializable 
                 pagar.setOnAction(e -> {
                     Factura f = getTableView().getItems().get(getIndex());
                     if ("PAGADA".equals(f.getEstado())) return;
-                    mostrarDialogoPago(f.getId());
+                    if (ConfirmDialog.ask("Marcar como pagada",
+                            "¿Marcar la factura " + f.getNumeroFactura() + " como pagada?")) {
+                        mostrarDialogoPago(f.getId());
+                    }
                 });
             }
             @Override protected void updateItem(Void v, boolean empty) {

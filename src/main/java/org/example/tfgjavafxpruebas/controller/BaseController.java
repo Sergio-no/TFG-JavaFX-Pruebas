@@ -19,8 +19,11 @@ public abstract class BaseController {
 
     @FXML
     protected void handleLogout() {
-        UserSesion.getInstance().clear();
-        AutoEliteApp.navigateTo("login");
+        if (org.example.tfgjavafxpruebas.util.ConfirmDialog.ask(
+                "Cerrar sesión", "¿Seguro que quieres cerrar sesión?")) {
+            UserSesion.getInstance().clear();
+            AutoEliteApp.navigateTo("login");
+        }
     }
 
     protected void initUserLabel() {

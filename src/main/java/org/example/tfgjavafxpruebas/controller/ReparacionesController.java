@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import org.example.tfgjavafxpruebas.util.ConfirmDialog;
 
 import java.net.URL;
 import java.util.*;
@@ -58,11 +59,17 @@ public class ReparacionesController extends BaseController implements Initializa
                 confirmar.setStyle("-fx-padding:4 8; -fx-font-size:11px;");
                 terminar.setOnAction(e -> {
                     Reparacion r = getTableView().getItems().get(getIndex());
-                    accion(() -> service.cambiarEstado(r.getId(), "TERMINADA"));
+                    if (ConfirmDialog.ask("Terminar reparación",
+                            "¿Marcar la reparación de " + r.getVehiculo() + " como terminada?")) {
+                        accion(() -> service.cambiarEstado(r.getId(), "TERMINADA"));
+                    }
                 });
                 confirmar.setOnAction(e -> {
                     Reparacion r = getTableView().getItems().get(getIndex());
-                    accion(() -> service.cambiarEstado(r.getId(), "CONFIRMADA"));
+                    if (ConfirmDialog.ask("Confirmar reparación",
+                            "¿Confirmar y cerrar la reparación de " + r.getVehiculo() + "?")) {
+                        accion(() -> service.cambiarEstado(r.getId(), "CONFIRMADA"));
+                    }
                 });
             }
             @Override protected void updateItem(Void v, boolean empty) {

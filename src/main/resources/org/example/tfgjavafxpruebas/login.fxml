@@ -62,6 +62,12 @@
                                style="-fx-progress-color: #7ec8e3;"
                                HBox.hgrow="ALWAYS"/>
 
+            <!-- Enlace a registro -->
+            <Button text="Crear cuenta nueva"
+                    styleClass="btn-secondary"
+                    maxWidth="Infinity"
+                    onAction="#goToRegister"/>
+
         </VBox>
 
         <!-- Footer -->

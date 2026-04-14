@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import org.example.tfgjavafxpruebas.util.ConfirmDialog;
 
 import java.net.URL;
 import java.util.List;
@@ -60,11 +61,17 @@ public class CitasController extends BaseController implements Initializable {
                 cancelar .setStyle("-fx-padding: 4 10; -fx-font-size:11px;");
                 confirmar.setOnAction(e -> {
                     Cita c = getTableView().getItems().get(getIndex());
-                    accion(() -> service.confirmar(c.getId()));
+                    if (ConfirmDialog.ask("Confirmar cita",
+                            "¿Confirmar la cita de " + c.getClienteNombre() + "?")) {
+                        accion(() -> service.confirmar(c.getId()));
+                    }
                 });
                 cancelar.setOnAction(e -> {
                     Cita c = getTableView().getItems().get(getIndex());
-                    accion(() -> service.cancelar(c.getId()));
+                    if (ConfirmDialog.ask("Cancelar cita",
+                            "¿Seguro que quieres cancelar la cita de " + c.getClienteNombre() + "?")) {
+                        accion(() -> service.cancelar(c.getId()));
+                    }
                 });
             }
             @Override protected void updateItem(Void v, boolean empty) {

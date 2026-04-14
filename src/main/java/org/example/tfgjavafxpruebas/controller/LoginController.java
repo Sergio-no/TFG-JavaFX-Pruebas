@@ -1,6 +1,5 @@
 package org.example.tfgjavafxpruebas.controller;
 
-
 import org.example.tfgjavafxpruebas.AutoEliteApp;
 import org.example.tfgjavafxpruebas.service.AuthService;
 import org.example.tfgjavafxpruebas.sesion.UserSesion;
@@ -34,11 +33,12 @@ public class LoginController {
             try {
                 String token = authService.login(email, password);
                 String uid   = authService.getUid(token);
+                String rol   = authService.getRolFromBackend(token);
 
                 UserSesion.getInstance().setToken(token);
                 UserSesion.getInstance().setEmail(email);
                 UserSesion.getInstance().setUid(uid);
-                UserSesion.getInstance().setRol("JEFE");
+                UserSesion.getInstance().setRol(rol);
 
                 Platform.runLater(() -> {
                     setLoading(false);
@@ -53,6 +53,12 @@ public class LoginController {
             }
         }).start();
     }
+
+    @FXML
+    public void goToRegister() {
+        AutoEliteApp.navigateTo("register");
+    }
+
     private void showError(String message) {
         errorLabel.setText(message);
     }

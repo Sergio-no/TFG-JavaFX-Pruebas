@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="org.example.tfgjavafxpruebas.controller.RegisterController"
+           styleClass="bg-primary"
+           prefWidth="1100" prefHeight="700">
+
+    <VBox alignment="CENTER" spacing="0" maxWidth="420">
+
+        <VBox alignment="CENTER" spacing="6" style="-fx-padding: 0 0 24 0;">
+            <Label text="AutoElite" style="-fx-font-size: 28px; -fx-font-weight: 500;"
+                   styleClass="text-blue"/>
+            <Label text="Crear cuenta nueva"
+                   styleClass="text-muted"
+                   style="-fx-font-size: 13px;"/>
+        </VBox>
+
+        <VBox styleClass="card" spacing="12" style="-fx-padding: 28;">
+
+            <HBox spacing="10">
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label text="Nombre *" styleClass="text-muted" style="-fx-font-size: 12px;"/>
+                    <TextField fx:id="nombreField" styleClass="input-field"/>
+                </VBox>
+                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                    <Label text="Apellidos *" styleClass="text-muted" style="-fx-font-size: 12px;"/>
+                    <TextField fx:id="apellidosField" styleClass="input-field"/>
+                </VBox>
+            </HBox>
+
+            <VBox spacing="6">
+                <Label text="Email *" styleClass="text-muted" style="-fx-font-size: 12px;"/>
+                <TextField fx:id="emailField" promptText="usuario@autoelite.com"
+                           styleClass="input-field"/>
+            </VBox>
+
+            <VBox spacing="6">
+                <Label text="Teléfono" styleClass="text-muted" style="-fx-font-size: 12px;"/>
+                <TextField fx:id="telefonoField" styleClass="input-field"/>
+            </VBox>
+
+            <VBox spacing="6">
+                <Label text="Rol *" styleClass="text-muted" style="-fx-font-size: 12px;"/>
+                <ComboBox fx:id="rolCombo" styleClass="input-field" maxWidth="Infinity"/>
+            </VBox>
+
+            <VBox spacing="6">
+                <Label text="Contraseña *" styleClass="text-muted" style="-fx-font-size: 12px;"/>
+                <PasswordField fx:id="passwordField" promptText="Mínimo 6 caracteres"
+                               styleClass="input-field"/>
+            </VBox>
+
+            <VBox spacing="6">
+                <Label text="Confirmar contraseña *" styleClass="text-muted"
+                       style="-fx-font-size: 12px;"/>
+                <PasswordField fx:id="confirmPasswordField" styleClass="input-field"/>
+            </VBox>
+
+            <Label fx:id="errorLabel" styleClass="label-error" text="" wrapText="true"/>
+
+            <Button fx:id="registerButton" text="Crear cuenta"
+                    styleClass="btn-primary" maxWidth="Infinity"
+                    onAction="#handleRegister"/>
+
+            <ProgressIndicator fx:id="loadingIndicator" visible="false"
+                               prefHeight="24" prefWidth="24"
+                               style="-fx-progress-color: #7ec8e3;"/>
+
+            <Button text="Ya tengo cuenta" styleClass="btn-secondary"
+                    maxWidth="Infinity" onAction="#goToLogin"/>
+        </VBox>
+    </VBox>
+</StackPane>
