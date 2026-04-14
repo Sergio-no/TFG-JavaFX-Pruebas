@@ -19,6 +19,7 @@ import java.util.ResourceBundle;
 public class CitasController extends BaseController implements Initializable {
 
     @FXML private TableView<Cita> citasTable;
+    @FXML private TableColumn<Cita, Long> colId;
     @FXML private TableColumn<Cita, String> colCliente;
     @FXML private TableColumn<Cita, String> colVehiculo;
     @FXML private TableColumn<Cita, String> colFecha;
@@ -41,6 +42,7 @@ public class CitasController extends BaseController implements Initializable {
     }
 
     private void configurarColumnas() {
+        colId      .setCellValueFactory(new PropertyValueFactory<>("id"));
         colCliente .setCellValueFactory(new PropertyValueFactory<>("clienteNombre"));
         colVehiculo.setCellValueFactory(new PropertyValueFactory<>("vehiculo"));
         colFecha   .setCellValueFactory(new PropertyValueFactory<>("fecha"));

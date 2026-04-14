@@ -28,6 +28,7 @@
                 <VBox style="-fx-padding:16 20;">
                     <TableView fx:id="facturasTable" styleClass="table-view">
                         <columns>
+                            <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
                             <TableColumn fx:id="colNumero"   text="Nº Factura"   prefWidth="150"/>
                             <TableColumn fx:id="colCliente"  text="Cliente"      prefWidth="160"/>
                             <TableColumn fx:id="colFecha"    text="Fecha"        prefWidth="100"/>

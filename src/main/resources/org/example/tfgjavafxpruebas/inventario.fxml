@@ -25,6 +25,7 @@
                 <VBox style="-fx-padding:16 20;">
                     <TableView fx:id="piezasTable" styleClass="table-view">
                         <columns>
+                            <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
                             <TableColumn fx:id="colNombre"   text="Pieza"        prefWidth="200"/>
                             <TableColumn fx:id="colPrecio"   text="Precio unit."  prefWidth="100"/>
                             <TableColumn fx:id="colStock"    text="Stock actual"  prefWidth="110"/>

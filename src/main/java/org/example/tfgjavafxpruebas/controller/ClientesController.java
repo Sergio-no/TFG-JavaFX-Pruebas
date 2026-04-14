@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 public class ClientesController extends BaseController implements Initializable {
 
     @FXML private TableView<Cliente> clientesTable;
+    @FXML private TableColumn<Cliente, Long> colId;
     @FXML private TableColumn<Cliente, String>  colNombre;
     @FXML private TableColumn<Cliente, String>  colEmail;
     @FXML private TableColumn<Cliente, String>  colTelefono;
@@ -34,6 +35,7 @@ public class ClientesController extends BaseController implements Initializable 
         initUserLabel();
         filtrados = new FilteredList<>(todos, p -> true);
         clientesTable.setItems(filtrados);
+        colId      .setCellValueFactory(new PropertyValueFactory<>("id"));
         colNombre  .setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colEmail   .setCellValueFactory(new PropertyValueFactory<>("email"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));

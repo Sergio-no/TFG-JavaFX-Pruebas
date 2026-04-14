@@ -18,6 +18,7 @@ import java.util.*;
 public class InventarioController extends BaseController implements Initializable {
 
     @FXML private TableView<Pieza> piezasTable;
+    @FXML private TableColumn<Pieza, Long> colId;
     @FXML private TableColumn<Pieza, String>  colNombre;
     @FXML private TableColumn<Pieza, String>  colPrecio;
     @FXML private TableColumn<Pieza, Integer> colStock;
@@ -41,6 +42,7 @@ public class InventarioController extends BaseController implements Initializabl
     }
 
     private void configurarColumnas() {
+        colId     .setCellValueFactory(new PropertyValueFactory<>("id"));
         colNombre .setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colPrecio .setCellValueFactory(c ->
                 new SimpleStringProperty(String.format("%.2f€", c.getValue().getPrecioUnitario())));

@@ -29,6 +29,7 @@
                 <VBox style="-fx-padding:16 20;">
                     <TableView fx:id="reparacionesTable" styleClass="table-view">
                         <columns>
+                            <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
                             <TableColumn fx:id="colVehiculo"    text="Vehículo"   prefWidth="200"/>
                             <TableColumn fx:id="colMecanico"    text="Mecánico"   prefWidth="140"/>
                             <TableColumn fx:id="colFechaInicio" text="Inicio"     prefWidth="90"/>

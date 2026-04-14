@@ -1,19 +1,27 @@
 package org.example.tfgjavafxpruebas;
 
 import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
 public class AutoEliteApp extends Application {
     public static Stage primaryStage;
 
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
+        // Icono de la ventana
+        try {
+            stage.getIcons().add(new Image(
+                    AutoEliteApp.class.getResourceAsStream(
+                            "/org/example/tfgjavafxpruebas/images/logo.png")));
+        } catch (Exception e) {
+            System.err.println("No se pudo cargar el logo: " + e.getMessage());
+        }
         navigateTo("login");
     }
 

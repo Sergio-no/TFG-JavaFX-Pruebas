@@ -17,6 +17,7 @@ import java.util.*;
 public class FacturasController extends BaseController implements Initializable {
 
     @FXML private TableView<Factura> facturasTable;
+    @FXML private TableColumn<Factura, Long> colId;
     @FXML private TableColumn<Factura, String> colNumero;
     @FXML private TableColumn<Factura, String> colCliente;
     @FXML private TableColumn<Factura, String> colFecha;
@@ -40,6 +41,7 @@ public class FacturasController extends BaseController implements Initializable 
     }
 
     private void configurarColumnas() {
+        colId    .setCellValueFactory(new PropertyValueFactory<>("id"));
         colNumero .setCellValueFactory(new PropertyValueFactory<>("numeroFactura"));
         colCliente.setCellValueFactory(new PropertyValueFactory<>("cliente"));
         colFecha  .setCellValueFactory(new PropertyValueFactory<>("fecha"));

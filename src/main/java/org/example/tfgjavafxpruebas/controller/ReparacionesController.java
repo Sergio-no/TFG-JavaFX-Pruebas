@@ -17,6 +17,7 @@ import java.util.*;
 public class ReparacionesController extends BaseController implements Initializable {
 
     @FXML private TableView<Reparacion> reparacionesTable;
+    @FXML private TableColumn<Reparacion, Long> colId;
     @FXML private TableColumn<Reparacion, String> colVehiculo;
     @FXML private TableColumn<Reparacion, String> colMecanico;
     @FXML private TableColumn<Reparacion, String> colFechaInicio;
@@ -39,6 +40,7 @@ public class ReparacionesController extends BaseController implements Initializa
     }
 
     private void configurarColumnas() {
+        colId         .setCellValueFactory(new PropertyValueFactory<>("id"));
         colVehiculo   .setCellValueFactory(new PropertyValueFactory<>("vehiculo"));
         colMecanico   .setCellValueFactory(new PropertyValueFactory<>("mecanico"));
         colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
