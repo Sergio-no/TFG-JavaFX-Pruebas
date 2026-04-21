@@ -17,12 +17,17 @@
                 <Region HBox.hgrow="ALWAYS"/>
                 <TextField fx:id="searchField" promptText="Buscar por nombre o email..."
                            styleClass="input-field" prefWidth="240"/>
+                <Button fx:id="btnVehiculos" text="Vehículos" styleClass="btn-secondary"
+                        onAction="#verVehiculosCliente"/>
                 <Button fx:id="btnNuevo" text="+ Nuevo" styleClass="btn-primary"
                         onAction="#abrirNuevoCliente"/>
                 <Button fx:id="btnEditar" text="Editar" styleClass="btn-secondary"
                         onAction="#abrirEditarCliente"/>
                 <Button fx:id="btnEliminar" text="Eliminar" styleClass="btn-secondary"
                         onAction="#eliminarClienteSeleccionado"/>
+                <Button fx:id="btnNuevoEmpleado" text="+ Empleado" styleClass="btn-primary"
+                        onAction="#abrirNuevoEmpleado"
+                        style="-fx-background-color:#1a4a2e; -fx-text-fill:#4ade80;"/>
             </HBox>
             <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
                         style="-fx-background:#1e2128; -fx-background-color:#1e2128;">

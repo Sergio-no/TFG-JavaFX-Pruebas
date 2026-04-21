@@ -35,6 +35,16 @@ public class LoginController {
                 String uid   = authService.getUid(token);
                 String rol   = authService.getRolFromBackend(token);
 
+                // ── NUEVO: bloquear acceso a rol CLIENTE ──
+                if ("CLIENTE".equals(rol)) {
+                    Platform.runLater(() -> {
+                        setLoading(false);
+                        showError("Los clientes no pueden acceder al panel de gestión.\n"
+                                + "Usa la aplicación móvil.");
+                    });
+                    return;
+                }
+
                 UserSesion.getInstance().setToken(token);
                 UserSesion.getInstance().setEmail(email);
                 UserSesion.getInstance().setUid(uid);

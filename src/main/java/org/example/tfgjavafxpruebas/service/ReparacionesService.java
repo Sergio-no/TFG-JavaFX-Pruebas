@@ -28,22 +28,62 @@ public class ReparacionesService {
     }
 
     public void cambiarEstado(Long id, String nuevoEstado) throws Exception {
-        client.send(HttpRequest.newBuilder()
+        HttpResponse<String> r = client.send(HttpRequest.newBuilder()
                 .uri(URI.create(BASE + "/reparaciones/" + id + "/estado"))
                 .header("Authorization", token())
                 .header("Content-Type", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(
                         mapper.writeValueAsString(Map.of("estado", nuevoEstado))))
                 .build(), HttpResponse.BodyHandlers.ofString());
+        if (r.statusCode() >= 300)
+            throw new RuntimeException("Error al cambiar estado: " + r.body());
     }
 
     public void crear(Map<String, Object> body) throws Exception {
-        client.send(HttpRequest.newBuilder()
+        HttpResponse<String> r = client.send(HttpRequest.newBuilder()
                 .uri(URI.create(BASE + "/reparaciones"))
                 .header("Authorization", token())
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(body)))
                 .build(), HttpResponse.BodyHandlers.ofString());
+        if (r.statusCode() >= 300)
+            throw new RuntimeException("Error al crear reparación: " + r.body());
+    }
+
+    /**
+     * NUEVO: Crea una reparación y devuelve su ID.
+     */
+    public Long crearYObtenerId(Map<String, Object> body) throws Exception {
+        HttpResponse<String> r = client.send(HttpRequest.newBuilder()
+                .uri(URI.create(BASE + "/reparaciones"))
+                .header("Authorization", token())
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(body)))
+                .build(), HttpResponse.BodyHandlers.ofString());
+        if (r.statusCode() >= 300)
+            throw new RuntimeException("Error al crear reparación: " + r.body());
+
+        JsonNode node = mapper.readTree(r.body());
+        return node.get("id").asLong();
+    }
+
+    /**
+     * NUEVO: Añade una pieza a una reparación.
+     */
+    public void addPieza(Long reparacionId, Long piezaId, int cantidad)
+            throws Exception {
+        Map<String, Object> body = Map.of(
+                "piezaId", piezaId,
+                "cantidadUsada", cantidad
+        );
+        HttpResponse<String> r = client.send(HttpRequest.newBuilder()
+                .uri(URI.create(BASE + "/reparaciones/" + reparacionId + "/piezas"))
+                .header("Authorization", token())
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(body)))
+                .build(), HttpResponse.BodyHandlers.ofString());
+        if (r.statusCode() >= 300)
+            throw new RuntimeException("Error al añadir pieza: " + r.body());
     }
 
     private Reparacion fromJson(JsonNode n) {
