@@ -9,61 +9,9 @@
             styleClass="bg-primary"
             prefWidth="1200" prefHeight="760">
 
-    <!-- ══ SIDEBAR ══════════════════════════════════════ -->
+    <!-- ══ SIDEBAR COMPARTIDO (con visibilidad por rol) ══ -->
     <left>
-        <VBox styleClass="bg-sidebar" prefWidth="200"
-              style="-fx-border-color: #2e333d; -fx-border-width: 0 1 0 0;">
-
-            <!-- Logo -->
-            <VBox style="-fx-padding: 20 16 16 16;
-                         -fx-border-color: #2e333d;
-                         -fx-border-width: 0 0 1 0;">
-                <Label text="AutoElite"
-                       styleClass="text-blue"
-                       style="-fx-font-size: 16px; -fx-font-weight: 500;"/>
-                <Label text="Panel de gestión"
-                       styleClass="text-hint"
-                       style="-fx-font-size: 11px;"/>
-            </VBox>
-
-            <!-- Nav -->
-            <Label text="PRINCIPAL" styleClass="nav-section"/>
-            <Button fx:id="navDashboard" text="  Dashboard"
-                    styleClass="nav-item, nav-item-active"
-                    onAction="#goToDashboard" maxWidth="Infinity"/>
-
-            <Label text="GESTIÓN" styleClass="nav-section"/>
-            <Button fx:id="navCitas" text="  Citas"
-                    styleClass="nav-item" onAction="#goToCitas" maxWidth="Infinity"/>
-            <Button fx:id="navReparaciones" text="  Reparaciones"
-                    styleClass="nav-item" onAction="#goToReparaciones" maxWidth="Infinity"/>
-            <Button fx:id="navInventario" text="  Inventario"
-                    styleClass="nav-item" onAction="#goToInventario" maxWidth="Infinity"/>
-            <Button fx:id="navFacturas" text="  Facturación"
-                    styleClass="nav-item" onAction="#goToFacturas" maxWidth="Infinity"/>
-
-            <Label text="ADMIN" styleClass="nav-section"/>
-            <Button fx:id="navClientes" text="  Clientes"
-                    styleClass="nav-item" onAction="#goToClientes" maxWidth="Infinity"/>
-            <Button fx:id="navEstadisticas" text="  Estadísticas"
-                    styleClass="nav-item" onAction="#goToEstadisticas" maxWidth="Infinity"/>
-
-            <!-- Spacer -->
-            <Region VBox.vgrow="ALWAYS"/>
-
-            <!-- Usuario logado -->
-            <VBox style="-fx-padding: 12 16;
-                         -fx-border-color: #2e333d;
-                         -fx-border-width: 1 0 0 0;">
-                <Label fx:id="userEmailLabel"
-                       styleClass="text-muted"
-                       style="-fx-font-size: 11px;" wrapText="true"/>
-                <Button text="Cerrar sesión"
-                        styleClass="btn-secondary"
-                        style="-fx-padding: 4 0; -fx-font-size: 11px;"
-                        onAction="#handleLogout"/>
-            </VBox>
-        </VBox>
+        <fx:include source="sidebar.fxml"/>
     </left>
 
     <!-- ══ CONTENIDO PRINCIPAL ══════════════════════════ -->
