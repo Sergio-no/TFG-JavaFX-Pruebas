@@ -37,6 +37,23 @@ public class FacturasService {
                 .build(), HttpResponse.BodyHandlers.ofString());
     }
 
+    /**
+     * Descarga la factura como PDF (bytes).
+     */
+    public byte[] descargarPdf(Long id) throws Exception {
+        HttpResponse<byte[]> r = client.send(
+                HttpRequest.newBuilder()
+                        .uri(URI.create(BASE + "/facturas/" + id + "/pdf"))
+                        .header("Authorization", token())
+                        .GET().build(),
+                HttpResponse.BodyHandlers.ofByteArray());
+
+        if (r.statusCode() != 200)
+            throw new RuntimeException("Error al descargar PDF (código " + r.statusCode() + ")");
+
+        return r.body();
+    }
+
     private Factura fromJson(JsonNode n) {
         return new Factura(
                 n.get("id").asLong(),
