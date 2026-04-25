@@ -37,12 +37,33 @@
                            styleClass="input-field"/>
             </VBox>
 
-            <!-- Contraseña -->
+            <!-- Contraseña con toggle de visibilidad -->
             <VBox spacing="6">
                 <Label text="Contraseña" styleClass="text-muted" style="-fx-font-size: 12px;"/>
-                <PasswordField fx:id="passwordField"
+                <HBox spacing="0" alignment="CENTER_LEFT">
+                    <PasswordField fx:id="passwordField"
+                                   promptText="••••••••"
+                                   styleClass="input-field"
+                                   HBox.hgrow="ALWAYS"/>
+                    <TextField fx:id="passwordVisible"
                                promptText="••••••••"
-                               styleClass="input-field"/>
+                               styleClass="input-field"
+                               HBox.hgrow="ALWAYS"
+                               visible="false" managed="false"/>
+                    <Button fx:id="togglePasswordBtn"
+                            text="👁"
+                            onAction="#togglePasswordVisibility"
+                            style="-fx-background-color: #12151a;
+                                   -fx-text-fill: #6b7280;
+                                   -fx-border-color: #2e333d;
+                                   -fx-border-width: 1 1 1 0;
+                                   -fx-border-radius: 0 6 6 0;
+                                   -fx-background-radius: 0 6 6 0;
+                                   -fx-padding: 10 12;
+                                   -fx-font-size: 14px;
+                                   -fx-cursor: hand;
+                                   -fx-pref-height: 40;"/>
+                </HBox>
             </VBox>
 
             <!-- Error -->
