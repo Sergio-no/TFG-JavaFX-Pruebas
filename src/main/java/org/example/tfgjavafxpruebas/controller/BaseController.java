@@ -16,6 +16,7 @@ public abstract class BaseController {
     @FXML protected void goToFacturas()     { AutoEliteApp.navigateTo("facturas"); }
     @FXML protected void goToClientes()     { AutoEliteApp.navigateTo("clientes"); }
     @FXML protected void goToEstadisticas() { AutoEliteApp.navigateTo("estadisticas"); }
+    @FXML protected void goToEmpleados()    { AutoEliteApp.navigateTo("empleados"); }
 
     @FXML
     protected void handleLogout() {
