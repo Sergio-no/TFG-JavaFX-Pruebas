@@ -33,7 +33,9 @@
     <Label text="ADMIN" styleClass="nav-section"/>
     <Button text="  Clientes"      styleClass="nav-item"
             onAction="#goToClientes"     maxWidth="Infinity"/>
-    <Button text="  Estadísticas"  styleClass="nav-item"
+    <Button fx:id="navEmpleados" text="  Empleados"     styleClass="nav-item"
+            onAction="#goToEmpleados"    maxWidth="Infinity"/>
+    <Button fx:id="navEstadisticas" text="  Estadísticas"  styleClass="nav-item"
             onAction="#goToEstadisticas" maxWidth="Infinity"/>
 
     <Region VBox.vgrow="ALWAYS"/>
