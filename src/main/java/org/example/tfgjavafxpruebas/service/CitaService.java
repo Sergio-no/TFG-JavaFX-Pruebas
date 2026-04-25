@@ -1,6 +1,5 @@
 package org.example.tfgjavafxpruebas.service;
 
-
 import org.example.tfgjavafxpruebas.model.Cita;
 import org.example.tfgjavafxpruebas.sesion.UserSesion;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -8,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.URI;
 import java.net.http.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +33,24 @@ public class CitaService {
         return list;
     }
 
+    /**
+     * Obtiene las horas disponibles para un día concreto.
+     */
+    public List<String> getHorasDisponibles(LocalDate fecha) throws Exception {
+        HttpResponse<String> r = client.send(
+                HttpRequest.newBuilder()
+                        .uri(URI.create(BASE + "/citas/horas-disponibles?fecha=" + fecha.toString()))
+                        .header("Authorization", token())
+                        .GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        List<String> horas = new ArrayList<>();
+        for (JsonNode n : mapper.readTree(r.body())) {
+            horas.add(n.asText());
+        }
+        return horas;
+    }
+
     public void confirmar(Long id) throws Exception {
         client.send(HttpRequest.newBuilder()
                         .uri(URI.create(BASE + "/citas/" + id + "/confirmar"))
@@ -50,12 +68,14 @@ public class CitaService {
     }
 
     public void crear(Map<String, Object> body) throws Exception {
-        client.send(HttpRequest.newBuilder()
+        HttpResponse<String> r = client.send(HttpRequest.newBuilder()
                 .uri(URI.create(BASE + "/citas"))
                 .header("Authorization", token())
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(body)))
                 .build(), HttpResponse.BodyHandlers.ofString());
+        if (r.statusCode() >= 300)
+            throw new RuntimeException("Error al crear cita: " + r.body());
     }
 
     private Cita fromJson(JsonNode n) {
