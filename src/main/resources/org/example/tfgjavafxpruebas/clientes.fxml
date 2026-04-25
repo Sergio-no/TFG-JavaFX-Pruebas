@@ -25,9 +25,6 @@
                         onAction="#abrirEditarCliente"/>
                 <Button fx:id="btnEliminar" text="Eliminar" styleClass="btn-secondary"
                         onAction="#eliminarClienteSeleccionado"/>
-                <Button fx:id="btnNuevoEmpleado" text="+ Empleado" styleClass="btn-primary"
-                        onAction="#abrirNuevoEmpleado"
-                        style="-fx-background-color:#1a4a2e; -fx-text-fill:#4ade80;"/>
             </HBox>
             <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
                         style="-fx-background:#1e2128; -fx-background-color:#1e2128;">
