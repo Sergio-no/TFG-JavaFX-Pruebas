@@ -17,6 +17,9 @@
                 <Region HBox.hgrow="ALWAYS"/>
                 <Label fx:id="totalLabel" styleClass="text-blue"
                        style="-fx-font-size:14px;"/>
+                <Label text="  |  " styleClass="text-hint" style="-fx-font-size:14px;"/>
+                <Label fx:id="pendienteLabel" styleClass="text-danger"
+                       style="-fx-font-size:14px;" text="Pendiente: 0.00€"/>
             </HBox>
             <HBox spacing="8" style="-fx-padding:12 20 0 20;">
                 <Button text="Todas"    styleClass="btn-secondary" onAction="#filtrarTodas"/>
@@ -29,13 +32,13 @@
                     <TableView fx:id="facturasTable" styleClass="table-view">
                         <columns>
                             <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
-                            <TableColumn fx:id="colNumero"   text="Nº Factura"   prefWidth="150"/>
-                            <TableColumn fx:id="colCliente"  text="Cliente"      prefWidth="160"/>
+                            <TableColumn fx:id="colNumero"   text="Nº Factura"   prefWidth="140"/>
+                            <TableColumn fx:id="colCliente"  text="Cliente"      prefWidth="150"/>
                             <TableColumn fx:id="colFecha"    text="Fecha"        prefWidth="100"/>
                             <TableColumn fx:id="colTotal"    text="Total"        prefWidth="90"/>
-                            <TableColumn fx:id="colMetodo"   text="Método pago"  prefWidth="120"/>
+                            <TableColumn fx:id="colMetodo"   text="Método pago"  prefWidth="110"/>
                             <TableColumn fx:id="colEstado"   text="Estado"       prefWidth="100"/>
-                            <TableColumn fx:id="colAcciones" text="Acciones"     prefWidth="160"/>
+                            <TableColumn fx:id="colAcciones" text="Acciones"     prefWidth="170"/>
                         </columns>
                         <placeholder>
                             <Label text="No hay facturas" styleClass="text-hint"/>
