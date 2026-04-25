@@ -55,10 +55,9 @@ public class DashboardController implements Initializable {
     // ── Alertas
     @FXML private VBox alertasContainer;
 
-    // ── Topbar / sidebar
+    // ── Topbar (estos sí siguen en dashboard.fxml)
     @FXML private Label fechaLabel;
     @FXML private Label rolBadge;
-    @FXML private Label userEmailLabel;
 
     private final DashboardService service = new DashboardService();
 
@@ -91,19 +90,17 @@ public class DashboardController implements Initializable {
         fechaLabel.setText(fecha);
 
         UserSesion session = UserSesion.getInstance();
-        userEmailLabel.setText(session.getEmail());
         if (session.getRol() != null) rolBadge.setText(session.getRol());
     }
 
     private void cargarDatosAsync() {
         new Thread(() -> {
             try {
-                List<CitaResumen> citas           = service.getCitasHoy();
-                List<ReparacionResumen> reps       = service.getReparacionesActivas();
-                List<AlertaStock> alertas          = service.getAlertasStock();
+                List<CitaResumen> citas      = service.getCitasHoy();
+                List<ReparacionResumen> reps  = service.getReparacionesActivas();
+                List<AlertaStock> alertas     = service.getAlertasStock();
 
                 Platform.runLater(() -> {
-                    // Métricas
                     metricCitas.setText(String.valueOf(citas.size()));
                     metricCitasSub.setText(
                             citas.stream().filter(c -> "PENDIENTE".equals(c.getEstado())).count()
@@ -115,15 +112,12 @@ public class DashboardController implements Initializable {
                     metricAlertas.setText(String.valueOf(alertas.size()));
                     metricAlertasSub.setText("piezas bajo mínimo");
 
-                    // Facturación — endpoint separado, de momento placeholder
                     metricFacturacion.setText("—");
                     metricFacturacionSub.setText("cargando...");
 
-                    // Tablas
                     citasTable.setItems(FXCollections.observableArrayList(citas));
                     reparacionesTable.setItems(FXCollections.observableArrayList(reps));
 
-                    // Alertas de stock
                     alertasContainer.getChildren().clear();
                     for (AlertaStock alerta : alertas) {
                         alertasContainer.getChildren().add(crearFilaAlerta(alerta));
@@ -131,33 +125,27 @@ public class DashboardController implements Initializable {
                 });
 
             } catch (Exception e) {
-                Platform.runLater(() -> usarDatosDePrueba());
+                Platform.runLater(this::usarDatosDePrueba);
             }
         }).start();
     }
 
-    // Fila visual de alerta de stock
     private HBox crearFilaAlerta(AlertaStock alerta) {
         HBox row = new HBox();
         row.setStyle("-fx-background-color: #2d1a1a; -fx-padding: 8 10; " +
                 "-fx-background-radius: 6;");
-
         Label nombre = new Label(alerta.getNombre());
         nombre.setStyle("-fx-text-fill: #e2e8f0; -fx-font-size: 12px;");
         HBox.setHgrow(nombre, Priority.ALWAYS);
-
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-
         Label stock = new Label(alerta.getStockActual() + " uds (mín. " +
                 alerta.getStockMinimo() + ")");
         stock.setStyle("-fx-text-fill: #f87171; -fx-font-size: 12px;");
-
         row.getChildren().addAll(nombre, spacer, stock);
         return row;
     }
 
-    // Datos de prueba mientras el backend no está listo
     private void usarDatosDePrueba() {
         metricCitas.setText("8");
         metricCitasSub.setText("3 pendientes");
@@ -189,21 +177,7 @@ public class DashboardController implements Initializable {
         ).forEach(a -> alertasContainer.getChildren().add(crearFilaAlerta(a)));
     }
 
-    // ── Navegación sidebar ────────────────────────────────
-    @FXML private void goToDashboard()     { AutoEliteApp.navigateTo("dashboard"); }
-    @FXML private void goToCitas()         { AutoEliteApp.navigateTo("citas"); }
-    @FXML private void goToReparaciones()  { AutoEliteApp.navigateTo("reparaciones"); }
-    @FXML private void goToInventario()    { AutoEliteApp.navigateTo("inventario"); }
-    @FXML private void goToFacturas()      { AutoEliteApp.navigateTo("facturas"); }
-    @FXML private void goToClientes()      { AutoEliteApp.navigateTo("clientes"); }
-    @FXML private void goToEstadisticas()  { AutoEliteApp.navigateTo("estadisticas"); }
-
-    @FXML
-    private void handleLogout() {
-        if (org.example.tfgjavafxpruebas.util.ConfirmDialog.ask(
-                "Cerrar sesión", "¿Seguro que quieres cerrar sesión?")) {
-            UserSesion.getInstance().clear();
-            AutoEliteApp.navigateTo("login");
-        }
-    }
+    // ── Solo los botones "Ver todas" del contenido del dashboard ──
+    @FXML private void goToCitas()        { AutoEliteApp.navigateTo("citas"); }
+    @FXML private void goToReparaciones() { AutoEliteApp.navigateTo("reparaciones"); }
 }
