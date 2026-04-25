@@ -48,6 +48,8 @@ public class ReparacionesController extends BaseController implements Initializa
         cargarAsync();
     }
 
+
+
     private void configurarColumnas() {
         colId         .setCellValueFactory(new PropertyValueFactory<>("id"));
         colVehiculo   .setCellValueFactory(new PropertyValueFactory<>("vehiculo"));
@@ -83,7 +85,21 @@ public class ReparacionesController extends BaseController implements Initializa
             }
             @Override protected void updateItem(Void v, boolean empty) {
                 super.updateItem(v, empty);
-                setGraphic(empty ? null : box);
+                if (empty) {
+                    setGraphic(null);
+                    return;
+                }
+                Reparacion r = getTableView().getItems().get(getIndex());
+                String estado = r.getEstado();
+
+                // PRESENTADA: esperando al cliente, ambos deshabilitados
+                // EN_PROCESO: solo Terminar habilitado
+                // TERMINADA: solo Confirmar habilitado
+                // CONFIRMADA o RECHAZADA: ambos deshabilitados
+                terminar.setDisable(!"EN_PROCESO".equals(estado));
+                confirmar.setDisable(!"TERMINADA".equals(estado));
+
+                setGraphic(box);
             }
         });
     }
@@ -110,7 +126,13 @@ public class ReparacionesController extends BaseController implements Initializa
     @FXML private void filtrarEnProceso()   { filtradas.setPredicate(r -> "EN_PROCESO".equals(r.getEstado())); }
     @FXML private void filtrarTerminadas()  { filtradas.setPredicate(r -> "TERMINADA".equals(r.getEstado())); }
     @FXML private void filtrarConfirmadas() { filtradas.setPredicate(r -> "CONFIRMADA".equals(r.getEstado())); }
-
+    // Añadir estos dos métodos:
+    @FXML private void filtrarPresentadas() {
+        filtradas.setPredicate(r -> "PRESENTADA".equals(r.getEstado()));
+    }
+    @FXML private void filtrarRechazadas() {
+        filtradas.setPredicate(r -> "RECHAZADA".equals(r.getEstado()));
+    }
     // ══════════════════════════════════════════════════════════
     // NUEVO: Diálogo de nueva reparación con matrícula, coste y piezas
     // ══════════════════════════════════════════════════════════

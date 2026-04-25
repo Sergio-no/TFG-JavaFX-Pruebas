@@ -19,10 +19,12 @@
                         onAction="#abrirNuevaReparacion"/>
             </HBox>
             <HBox spacing="8" style="-fx-padding:12 20 0 20;">
-                <Button text="Todas"      styleClass="btn-secondary" onAction="#filtrarTodas"/>
-                <Button text="En proceso" styleClass="btn-secondary" onAction="#filtrarEnProceso"/>
-                <Button text="Terminadas" styleClass="btn-secondary" onAction="#filtrarTerminadas"/>
+                <Button text="Todas"       styleClass="btn-secondary" onAction="#filtrarTodas"/>
+                <Button text="Presentadas" styleClass="btn-secondary" onAction="#filtrarPresentadas"/>
+                <Button text="En proceso"  styleClass="btn-secondary" onAction="#filtrarEnProceso"/>
+                <Button text="Terminadas"  styleClass="btn-secondary" onAction="#filtrarTerminadas"/>
                 <Button text="Confirmadas" styleClass="btn-secondary" onAction="#filtrarConfirmadas"/>
+                <Button text="Rechazadas"  styleClass="btn-secondary" onAction="#filtrarRechazadas"/>
             </HBox>
             <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
                         style="-fx-background:#1e2128; -fx-background-color:#1e2128;">
