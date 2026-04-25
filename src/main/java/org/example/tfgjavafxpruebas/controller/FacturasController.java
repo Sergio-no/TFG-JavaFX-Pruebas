@@ -10,8 +10,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
+import org.example.tfgjavafxpruebas.AutoEliteApp;
 import org.example.tfgjavafxpruebas.util.ConfirmDialog;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.util.*;
 
@@ -27,6 +31,7 @@ public class FacturasController extends BaseController implements Initializable 
     @FXML private TableColumn<Factura, String> colEstado;
     @FXML private TableColumn<Factura, Void>   colAcciones;
     @FXML private Label totalLabel;
+    @FXML private Label pendienteLabel;
 
     private final FacturasService service = new FacturasService();
     private final ObservableList<Factura> todas = FXCollections.observableArrayList();
@@ -50,11 +55,15 @@ public class FacturasController extends BaseController implements Initializable 
         colMetodo .setCellValueFactory(new PropertyValueFactory<>("metodoPago"));
         colEstado .setCellValueFactory(new PropertyValueFactory<>("estado"));
         colAcciones.setCellFactory(col -> new TableCell<>() {
-            final Button pagar = new Button("Marcar pagada");
-            final HBox box = new HBox(pagar);
+            final Button pagar     = new Button("Pagar");
+            final Button descargar = new Button("PDF");
+            final HBox box = new HBox(6, pagar, descargar);
             {
                 pagar.getStyleClass().add("btn-primary");
                 pagar.setStyle("-fx-padding:4 10; -fx-font-size:11px;");
+                descargar.getStyleClass().add("btn-secondary");
+                descargar.setStyle("-fx-padding:4 10; -fx-font-size:11px;");
+
                 pagar.setOnAction(e -> {
                     Factura f = getTableView().getItems().get(getIndex());
                     if ("PAGADA".equals(f.getEstado())) return;
@@ -62,6 +71,11 @@ public class FacturasController extends BaseController implements Initializable 
                             "¿Marcar la factura " + f.getNumeroFactura() + " como pagada?")) {
                         mostrarDialogoPago(f.getId());
                     }
+                });
+
+                descargar.setOnAction(e -> {
+                    Factura f = getTableView().getItems().get(getIndex());
+                    descargarPdf(f.getId(), f.getNumeroFactura());
                 });
             }
             @Override protected void updateItem(Void v, boolean empty) {
@@ -72,6 +86,35 @@ public class FacturasController extends BaseController implements Initializable 
                 setGraphic(box);
             }
         });
+    }
+
+    private void descargarPdf(Long id, String numeroFactura) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Guardar factura PDF");
+        fileChooser.setInitialFileName(numeroFactura + ".pdf");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("PDF", "*.pdf"));
+
+        File archivo = fileChooser.showSaveDialog(
+                AutoEliteApp.primaryStage);
+
+        if (archivo == null) return; // Usuario canceló
+
+        new Thread(() -> {
+            try {
+                byte[] pdf = service.descargarPdf(id);
+                try (FileOutputStream fos = new FileOutputStream(archivo)) {
+                    fos.write(pdf);
+                }
+                Platform.runLater(() ->
+                        ConfirmDialog.info("PDF guardado",
+                                "Factura guardada en:\n" + archivo.getAbsolutePath()));
+            } catch (Exception ex) {
+                Platform.runLater(() ->
+                        ConfirmDialog.error("Error al descargar PDF",
+                                ex.getMessage()));
+            }
+        }).start();
     }
 
     private void mostrarDialogoPago(Long id) {
@@ -90,7 +133,7 @@ public class FacturasController extends BaseController implements Initializable 
                 List<Factura> list = service.getAll();
                 Platform.runLater(() -> {
                     todas.setAll(list);
-                    actualizarTotal();
+                    actualizarTotales();
                 });
             } catch (Exception e) {
                 Platform.runLater(this::datosPrueba);
@@ -98,14 +141,29 @@ public class FacturasController extends BaseController implements Initializable 
         }).start();
     }
 
-    private void actualizarTotal() {
-        double sum = todas.stream()
+    private void actualizarTotales() {
+        double cobrado = todas.stream()
                 .filter(f -> "PAGADA".equals(f.getEstado()))
-                .mapToDouble(f -> {
-                    try { return Double.parseDouble(f.getTotal().replace("€","")); }
-                    catch (Exception ex) { return 0; }
-                }).sum();
-        totalLabel.setText(String.format("Total cobrado: %.2f€", sum));
+                .mapToDouble(f -> parsearTotal(f.getTotal()))
+                .sum();
+
+        double pendiente = todas.stream()
+                .filter(f -> "PENDIENTE".equals(f.getEstado()))
+                .mapToDouble(f -> parsearTotal(f.getTotal()))
+                .sum();
+
+        totalLabel.setText(String.format("Total cobrado: %.2f€", cobrado));
+        if (pendienteLabel != null) {
+            pendienteLabel.setText(String.format("Pendiente: %.2f€", pendiente));
+        }
+    }
+
+    private double parsearTotal(String total) {
+        try {
+            return Double.parseDouble(total.replace("€", "").replace(",", ".").trim());
+        } catch (Exception ex) {
+            return 0;
+        }
     }
 
     private void accion(RunnableEx r) {
@@ -125,7 +183,7 @@ public class FacturasController extends BaseController implements Initializable 
                 new Factura(2L,"FAC-2026-0042","Taller Norte", "2026-03-27","180€",null,          false),
                 new Factura(3L,"FAC-2026-0043","Carlos Martín","2026-03-27","320€",null,          false)
         );
-        actualizarTotal();
+        actualizarTotales();
     }
 
     @FunctionalInterface interface RunnableEx { void run() throws Exception; }
