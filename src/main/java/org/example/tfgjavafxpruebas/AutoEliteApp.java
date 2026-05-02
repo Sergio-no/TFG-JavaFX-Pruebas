@@ -2,6 +2,7 @@ package org.example.tfgjavafxpruebas;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -30,15 +31,26 @@ public class AutoEliteApp extends Application {
             FXMLLoader loader = new FXMLLoader(
                     AutoEliteApp.class.getResource("/org/example/tfgjavafxpruebas/" + fxmlName + ".fxml")
             );
-            Scene scene = new Scene(loader.load());
-            scene.getStylesheets().add(
-                    AutoEliteApp.class.getResource("/org/example/tfgjavafxpruebas/styles/autoelite.css").toExternalForm()
-            );
-            primaryStage.setScene(scene);
-            primaryStage.setTitle("AutoElite");
-            primaryStage.setMinWidth(1100);
-            primaryStage.setMinHeight(700);
-            primaryStage.show();
+            Parent root = loader.load();
+
+            if (primaryStage.getScene() == null) {
+                // Primera vez: crear la Scene
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(
+                        AutoEliteApp.class.getResource(
+                                "/org/example/tfgjavafxpruebas/styles/autoelite.css"
+                        ).toExternalForm()
+                );
+                primaryStage.setScene(scene);
+                primaryStage.setTitle("AutoElite");
+                primaryStage.setMinWidth(1100);
+                primaryStage.setMinHeight(700);
+                primaryStage.show();
+            } else {
+                // Navegaciones siguientes: solo reemplazar el root.
+                // La Scene y el Stage no cambian → maximizado se conserva.
+                primaryStage.getScene().setRoot(root);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
