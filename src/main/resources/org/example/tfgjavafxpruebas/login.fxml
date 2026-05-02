@@ -29,9 +29,9 @@
                    styleClass="text-primary"
                    style="-fx-font-size: 16px; -fx-font-weight: 500;"/>
 
-            <!-- Email -->
+            <!-- Email / Usuario -->
             <VBox spacing="6">
-                <Label text="Email" styleClass="text-muted" style="-fx-font-size: 12px;"/>
+                <Label text="Nombre de usuario o correo electrónico" styleClass="text-muted" style="-fx-font-size: 12px;"/>
                 <TextField fx:id="emailField"
                            promptText="usuario@autoelite.com"
                            styleClass="input-field"/>
