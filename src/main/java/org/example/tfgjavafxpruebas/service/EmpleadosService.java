@@ -86,4 +86,3 @@ public class EmpleadosService {
         public boolean isActivo() { return activo; }
     }
 }
-

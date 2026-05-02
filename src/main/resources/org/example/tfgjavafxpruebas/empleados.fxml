@@ -12,12 +12,12 @@
             <HBox alignment="CENTER_LEFT" spacing="10"
                   style="-fx-padding:12 20; -fx-background-color:#1a1d23;
                          -fx-border-color:#2e333d; -fx-border-width:0 0 1 0;">
-                <Label text="Empleados" styleClass="text-primary"
+                <Label text="Empleados y Mecánicos" styleClass="text-primary"
                        style="-fx-font-size:15px; -fx-font-weight:500;"/>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button text="Desactivar" styleClass="btn-secondary"
+                <Button text="Activar / Desactivar" styleClass="btn-secondary"
                         onAction="#desactivarEmpleado"/>
-                <Button text="+ Nuevo empleado" styleClass="btn-primary"
+                <Button text="+ Nuevo" styleClass="btn-primary"
                         onAction="#abrirNuevoEmpleado"/>
             </HBox>
             <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
@@ -27,13 +27,13 @@
                         <columns>
                             <TableColumn fx:id="colId"       text="ID"       prefWidth="60"/>
                             <TableColumn fx:id="colNombre"   text="Nombre"   prefWidth="200"/>
-                            <TableColumn fx:id="colEmail"    text="Email"    prefWidth="220"/>
+                            <TableColumn fx:id="colEmail"    text="Email / Especialidad" prefWidth="220"/>
                             <TableColumn fx:id="colTelefono" text="Teléfono" prefWidth="130"/>
                             <TableColumn fx:id="colRol"      text="Rol"      prefWidth="100"/>
                             <TableColumn fx:id="colEstado"   text="Estado"   prefWidth="100"/>
                         </columns>
                         <placeholder>
-                            <Label text="No hay empleados registrados" styleClass="text-hint"/>
+                            <Label text="No hay empleados ni mecánicos registrados" styleClass="text-hint"/>
                         </placeholder>
                     </TableView>
                 </VBox>
