@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -48,10 +49,31 @@
                         </VBox>
                     </GridPane>
 
+                    <!-- ══ GRÁFICOS DONUT ══ -->
+                    <HBox spacing="16">
+                        <!-- Gráfico de rendimiento de mecánicos -->
+                        <VBox styleClass="card" spacing="8" HBox.hgrow="ALWAYS">
+                            <Label text="Rendimiento por mecánico" styleClass="text-muted"
+                                   style="-fx-font-size:13px; -fx-font-weight:bold;"/>
+                            <Label fx:id="filtroMecanicoLabel" text="" styleClass="text-blue"
+                                   style="-fx-font-size:11px;"/>
+                            <StackPane fx:id="chartMecanicosContainer" prefHeight="280"/>
+                        </VBox>
+
+                        <!-- Gráfico de valoraciones -->
+                        <VBox styleClass="card" spacing="8" HBox.hgrow="ALWAYS">
+                            <Label text="Distribución de valoraciones" styleClass="text-muted"
+                                   style="-fx-font-size:13px; -fx-font-weight:bold;"/>
+                            <Label fx:id="filtroValoracionLabel" text="" styleClass="text-blue"
+                                   style="-fx-font-size:11px;"/>
+                            <StackPane fx:id="chartValoracionesContainer" prefHeight="280"/>
+                        </VBox>
+                    </HBox>
+
                     <!-- Tablas -->
                     <HBox spacing="16">
                         <VBox spacing="8" HBox.hgrow="ALWAYS">
-                            <Label text="Rendimiento por mecánico"
+                            <Label text="Detalle por mecánico"
                                    styleClass="text-muted" style="-fx-font-size:13px;"/>
                             <TableView fx:id="mecanicosTable" styleClass="table-view" prefHeight="220">
                                 <columns>

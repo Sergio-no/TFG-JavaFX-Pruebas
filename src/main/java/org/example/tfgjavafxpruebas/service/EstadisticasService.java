@@ -20,6 +20,9 @@ public class EstadisticasService {
     private final ObjectMapper mapper = new ObjectMapper();
     private String token() { return "Bearer " + UserSesion.getInstance().getToken(); }
 
+    /**
+     * Una sola llamada al backend que devuelve todo.
+     */
     public JsonNode getRaw() throws Exception {
         HttpResponse<String> r = client.send(
                 HttpRequest.newBuilder()
@@ -27,13 +30,20 @@ public class EstadisticasService {
                         .header("Authorization", token())
                         .GET().build(),
                 HttpResponse.BodyHandlers.ofString());
+        if (r.statusCode() != 200) {
+            throw new RuntimeException("Error HTTP " + r.statusCode() + ": " + r.body());
+        }
         return mapper.readTree(r.body());
     }
 
-    public List<MecanicoStats> getMecanicoStats() throws Exception {
-        JsonNode data = getRaw();
+    /**
+     * Extrae las stats de mecánicos de un JsonNode ya cargado.
+     */
+    public List<MecanicoStats> getMecanicoStatsFromNode(JsonNode data) {
         List<MecanicoStats> list = new ArrayList<>();
-        for (JsonNode n : data.path("mecanicoStats")) {
+        JsonNode statsNode = data.path("mecanicoStats");
+        if (statsNode.isMissingNode() || !statsNode.isArray()) return list;
+        for (JsonNode n : statsNode) {
             list.add(new MecanicoStats(
                     n.path("nombre").asText("—"),
                     n.path("reparaciones").asInt(0),
@@ -43,10 +53,14 @@ public class EstadisticasService {
         return list;
     }
 
-    public List<Valoracion> getUltimasValoraciones() throws Exception {
-        JsonNode data = getRaw();
+    /**
+     * Extrae las últimas valoraciones de un JsonNode ya cargado.
+     */
+    public List<Valoracion> getUltimasValoracionesFromNode(JsonNode data) {
         List<Valoracion> list = new ArrayList<>();
-        for (JsonNode n : data.path("ultimasValoraciones")) {
+        JsonNode valNode = data.path("ultimasValoraciones");
+        if (valNode.isMissingNode() || !valNode.isArray()) return list;
+        for (JsonNode n : valNode) {
             list.add(new Valoracion(
                     n.path("clienteNombre").asText("—"),
                     n.path("puntuacion").asInt(0),
@@ -54,5 +68,15 @@ public class EstadisticasService {
             ));
         }
         return list;
+    }
+
+    // ── Métodos legacy por compatibilidad (hacen su propia llamada) ──
+
+    public List<MecanicoStats> getMecanicoStats() throws Exception {
+        return getMecanicoStatsFromNode(getRaw());
+    }
+
+    public List<Valoracion> getUltimasValoraciones() throws Exception {
+        return getUltimasValoracionesFromNode(getRaw());
     }
 }
