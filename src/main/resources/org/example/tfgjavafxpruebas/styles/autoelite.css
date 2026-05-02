@@ -173,6 +173,52 @@
 .pill-done      { -fx-background-color: #2a1a2a; -fx-text-fill: #c084fc; }
 .pill-low       { -fx-background-color: #2d1a1a; -fx-text-fill: #f87171; }
 
+/* ══════════════════════════════════════════════════
+   PieChart / Donut Chart Styling
+   ══════════════════════════════════════════════════ */
+.chart {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.chart-content {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-pie {
+    -fx-border-color: #1a1d23;
+    -fx-border-width: 2;
+}
+
+.chart-pie-label-line {
+    -fx-stroke: transparent;
+}
+
+.chart-pie-label {
+    -fx-fill: #9ca3af;
+    -fx-font-size: 10px;
+}
+
+.chart-legend {
+    -fx-background-color: transparent;
+    -fx-padding: 8 0 0 0;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #9ca3af;
+    -fx-font-size: 10px;
+}
+
+.chart-legend-item-symbol {
+    -fx-background-radius: 2;
+    -fx-padding: 5;
+}
+
 /* ── Scrollbar ──────────────────────────────────── */
 .scroll-bar {
     -fx-background-color: transparent;
