@@ -100,11 +100,17 @@
 
                         <!-- Próximas citas -->
                         <VBox spacing="10" HBox.hgrow="ALWAYS">
-                            <HBox alignment="CENTER_LEFT">
-                                <Label text="Próximas citas"
+                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                <Label fx:id="citasTituloLabel" text="Citas de hoy"
                                        styleClass="text-muted"
                                        style="-fx-font-size: 13px;"/>
                                 <Region HBox.hgrow="ALWAYS"/>
+                                <Button text="Hoy"
+                                        styleClass="btn-secondary"
+                                        onAction="#mostrarCitasHoy"/>
+                                <Button text="Semanales"
+                                        styleClass="btn-secondary"
+                                        onAction="#mostrarCitasSemana"/>
                                 <Button text="Ver todas"
                                         styleClass="btn-secondary"
                                         onAction="#goToCitas"/>
