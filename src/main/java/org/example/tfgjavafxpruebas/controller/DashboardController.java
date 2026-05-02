@@ -61,6 +61,46 @@ public class DashboardController implements Initializable {
 
     private final DashboardService service = new DashboardService();
 
+    @FXML private Label citasTituloLabel;
+
+    @FXML
+    private void mostrarCitasHoy() {
+        citasTituloLabel.setText("Citas de hoy");
+        new Thread(() -> {
+            try {
+                List<CitaResumen> citas = service.getCitasHoy();
+                Platform.runLater(() -> {
+                    citasTable.setItems(FXCollections.observableArrayList(citas));
+                    metricCitas.setText(String.valueOf(citas.size()));
+                    metricCitasSub.setText(
+                            citas.stream().filter(c -> "PENDIENTE".equals(c.getEstado())).count()
+                                    + " pendientes");
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    @FXML
+    private void mostrarCitasSemana() {
+        citasTituloLabel.setText("Citas de la semana");
+        new Thread(() -> {
+            try {
+                List<CitaResumen> citas = service.getCitasSemana();
+                Platform.runLater(() -> {
+                    citasTable.setItems(FXCollections.observableArrayList(citas));
+                    metricCitas.setText(String.valueOf(citas.size()));
+                    metricCitasSub.setText(
+                            citas.stream().filter(c -> "PENDIENTE".equals(c.getEstado())).count()
+                                    + " pendientes esta semana");
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         configurarColumnas();
