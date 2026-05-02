@@ -404,11 +404,25 @@ public class EstadisticasController extends BaseController implements Initializa
     }
 
     private void estilizarLeyenda(PieChart chart) {
+        // Texto de la leyenda
         chart.lookupAll(".chart-legend-item").forEach(node ->
                 node.setStyle("-fx-text-fill: #9ca3af; -fx-font-size: 10px;"));
+
+        // Fondo transparente
         var legend = chart.lookup(".chart-legend");
         if (legend != null) {
             legend.setStyle("-fx-background-color: transparent;");
+        }
+
+        // Sincronizar el color del símbolo de leyenda con el del slice
+        ObservableList<PieChart.Data> datos = chart.getData();
+        for (int i = 0; i < datos.size(); i++) {
+            String color = extraerColor(datos.get(i).getNode().getStyle());
+            javafx.scene.Node symbol = chart.lookup(
+                    ".default-color" + i + ".chart-legend-item-symbol");
+            if (symbol != null) {
+                symbol.setStyle("-fx-background-color: " + color + ";");
+            }
         }
     }
 
