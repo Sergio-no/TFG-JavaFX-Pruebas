@@ -44,6 +44,25 @@ public class DashboardService {
         return result;
     }
 
+    public List<CitaResumen> getCitasSemana() throws Exception {
+        HttpResponse<String> response = client.send(
+                HttpRequest.newBuilder()
+                        .uri(URI.create(BASE_URL + "/citas/semana"))
+                        .header("Authorization", "Bearer " + UserSesion.getInstance().getToken())
+                        .GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+        List<CitaResumen> result = new ArrayList<>();
+        for (JsonNode n : mapper.readTree(response.body())) {
+            result.add(new CitaResumen(
+                    n.path("clienteNombre").asText(),
+                    n.path("hora").asText(),
+                    n.path("tipo").asText("—"),
+                    n.path("estado").asText()
+            ));
+        }
+        return result;
+    }
+
     public List<ReparacionResumen> getReparacionesActivas() throws Exception {
         JsonNode data = getDashboardData();
         List<ReparacionResumen> result = new ArrayList<>();
